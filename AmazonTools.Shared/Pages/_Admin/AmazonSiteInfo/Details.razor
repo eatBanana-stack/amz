@@ -1,0 +1,70 @@
+﻿
+@page "/_Admin/AmazonSiteInfo/Details"
+@using AmazonTools.ViewModel._Admin.AmazonSiteInfoVMs
+@using System.ComponentModel.DataAnnotations
+@inherits BasePage
+
+<div>
+  <ValidateForm @ref="vform" Model="@Model" OnValidSubmit="@Submit" >
+    <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
+      <Display @bind-Value="@Model.Entity.SiteName"  ShowLabel="true" IsDisabled="true"/>
+      <Display @bind-Value="@Model.Entity.Mail"  ShowLabel="true" IsDisabled="true"/>
+      <Display @bind-Value="@Model.Entity.MailPassWord"  ShowLabel="true" IsDisabled="true"/>
+      <Display @bind-Value="@Model.Entity.AccountPassWord"  ShowLabel="true" IsDisabled="true"/>
+      <Display @bind-Value="@Model.Entity.CreditCard"  ShowLabel="true" IsDisabled="true"/>
+      <Display @bind-Value="@Model.Entity.SecurityCode"  ShowLabel="true" IsDisabled="true"/>
+      <Display @bind-Value="@Model.Entity.ValidityPeriod"  ShowLabel="true" IsDisabled="true"/>
+      <Display @bind-Value="@Model.Entity.Phone"  ShowLabel="true" IsDisabled="true"/>
+      <Display @bind-Value="@Model.Entity.AmazonState"  ShowLabel="true" IsDisabled="true"/>
+      <Display @bind-Value="@Model.Entity.AmazonUserId"  ShowLabel="true" Lookup="AllAmazonUsers" IsDisabled="true"/>
+      <WTUploadImage @bind-Value="@Model.Entity.GooogleVerificationId" IsDisabled="true" thumb-width="128"/>
+      <Display @bind-Value="@Model.Entity.CreateTime"  ShowLabel="true" IsDisabled="true"/>
+      <Display @bind-Value="@Model.Entity.UpdateTime"  ShowLabel="true" IsDisabled="true"/>
+      <Display @bind-Value="@Model.Entity.CreateBy"  ShowLabel="true" IsDisabled="true"/>
+      <Display @bind-Value="@Model.Entity.UpdateBy"  ShowLabel="true" IsDisabled="true"/>
+    </Row>
+
+    <div class="modal-footer table-modal-footer">
+      <Button OnClick="OnClose" Text="@WtmBlazor.Localizer["Sys.Close"]"/>
+    </div>
+
+  </ValidateForm>
+
+</div>
+
+
+
+@code {
+    [Parameter]
+    public string id { get; set; }
+    [Parameter]
+    public string[] ids { get; set; }
+    private AmazonSiteInfoVM Model = new AmazonSiteInfoVM();
+    private ValidateForm vform { get; set; }
+    private async Task Submit(EditContext context)
+    {
+                        
+        
+        await PostsForm(vform, "/api/_Admin/AmazonSiteInfo/Edit", (s) => "Sys.OprationSuccess");
+    }
+    public void OnClose()
+    {
+        CloseDialog();
+    }
+    
+    private List<SelectedItem> AllAmazonUsers = new List<SelectedItem>();
+    protected override async Task OnInitializedAsync()
+    {
+        
+        
+        AllAmazonUsers = await WtmBlazor.Api.CallItemsApi("/api/_Admin/AmazonSiteInfo/GetAmazonUserInfos");
+        AllAmazonUsers.Insert(0, new SelectedItem { Text = WtmBlazor.Localizer["Sys.PleaseSelect"],Value = "" });
+        if (id != "")
+        {
+            var rv = await WtmBlazor.Api.CallAPI<AmazonSiteInfoVM>($"/api/_Admin/AmazonSiteInfo/{id}");
+            Model = rv.Data;
+        }
+
+        await base.OnInitializedAsync();
+    }
+}

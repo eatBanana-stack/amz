@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+     <Nullable>disable</Nullable>  
+ </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Elsa.Designer.Components.Web" Version="2.14.1" />
+    <PackageReference Include="BootstrapBlazor" Version="8.7.2" />
+    <PackageReference Include="BootstrapBlazor.Chart" Version="8.1.5" />
+    <PackageReference Include="BootstrapBlazor.Markdown" Version="8.0.0" />
+     <PackageReference Include="BootstrapBlazor.SummerNote" Version="8.0.2" />
+   <ProjectReference Include="..\AmazonTools.ViewModel\AmazonTools.ViewModel.csproj" />
+  </ItemGroup >
+</Project>
+

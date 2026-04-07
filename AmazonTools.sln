@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmazonTools", "AmazonTools\AmazonTools.csproj", "{bc774409-72be-4b19-8f58-06a5f30056ae}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmazonTools.Model", "AmazonTools.Model\AmazonTools.Model.csproj", "{b4ff4774-a76e-4901-a8b4-cf4c24ceda74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmazonTools.DataAccess", "AmazonTools.DataAccess\AmazonTools.DataAccess.csproj", "{7c5591d8-c353-45f7-9bbf-c29d6a54ba2f}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmazonTools.ViewModel", "AmazonTools.ViewModel\AmazonTools.ViewModel.csproj", "{7ff3ba99-5abc-425e-a365-254e5b55f150}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmazonTools.Client", "AmazonTools.Client\AmazonTools.Client.csproj", "{d0cd3d89-87be-4d29-82ea-c188daf1d77f}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmazonTools.Shared", "AmazonTools.Shared\AmazonTools.Shared.csproj", "{ff47dc05-b2ca-47b8-b838-78f0ccfd023c}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmazonTools.Test", "AmazonTools.Test\AmazonTools.Test.csproj", "{359633ff-1b01-4ec1-ae32-2a6244a869d8}"
+EndProject
+
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{bc774409-72be-4b19-8f58-06a5f30056ae}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{bc774409-72be-4b19-8f58-06a5f30056ae}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{bc774409-72be-4b19-8f58-06a5f30056ae}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{bc774409-72be-4b19-8f58-06a5f30056ae}.Release|Any CPU.Build.0 = Release|Any CPU
+		{b4ff4774-a76e-4901-a8b4-cf4c24ceda74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{b4ff4774-a76e-4901-a8b4-cf4c24ceda74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{b4ff4774-a76e-4901-a8b4-cf4c24ceda74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{b4ff4774-a76e-4901-a8b4-cf4c24ceda74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7c5591d8-c353-45f7-9bbf-c29d6a54ba2f}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7c5591d8-c353-45f7-9bbf-c29d6a54ba2f}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7c5591d8-c353-45f7-9bbf-c29d6a54ba2f}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7c5591d8-c353-45f7-9bbf-c29d6a54ba2f}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ff3ba99-5abc-425e-a365-254e5b55f150}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ff3ba99-5abc-425e-a365-254e5b55f150}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ff3ba99-5abc-425e-a365-254e5b55f150}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ff3ba99-5abc-425e-a365-254e5b55f150}.Release|Any CPU.Build.0 = Release|Any CPU
+		{d0cd3d89-87be-4d29-82ea-c188daf1d77f}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{d0cd3d89-87be-4d29-82ea-c188daf1d77f}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{d0cd3d89-87be-4d29-82ea-c188daf1d77f}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{d0cd3d89-87be-4d29-82ea-c188daf1d77f}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ff47dc05-b2ca-47b8-b838-78f0ccfd023c}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ff47dc05-b2ca-47b8-b838-78f0ccfd023c}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ff47dc05-b2ca-47b8-b838-78f0ccfd023c}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ff47dc05-b2ca-47b8-b838-78f0ccfd023c}.Release|Any CPU.Build.0 = Release|Any CPU
+
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1F219808-E6E8-4C1D-B846-41F2F7CF20FA}
+	EndGlobalSection
+EndGlobal

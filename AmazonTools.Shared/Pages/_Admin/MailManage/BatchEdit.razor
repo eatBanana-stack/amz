@@ -1,0 +1,50 @@
+﻿
+@page "/_Admin/MailManage/BatchEdit"
+@using AmazonTools.ViewModel._Admin.MailManageVMs
+@using System.ComponentModel.DataAnnotations
+@inherits BasePage
+
+<ValidateForm @ref="vform" Model="@Model" OnValidSubmit="@Submit">
+  <div style="margin-bottom:10px;"> @WtmBlazor.Localizer["Sys.BatchEditConfirm"]</div>
+  <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
+    <BootstrapInput @bind-Value="@Model.LinkedVM.Mail"/>
+    <BootstrapInput @bind-Value="@Model.LinkedVM.PassWord"/>
+  </Row>
+
+  <div class="modal-footer table-modal-footer">
+    <Button ButtonType="ButtonType.Submit" IsAsync="true" Text="@WtmBlazor.Localizer["Sys.Submit"]"/>
+    <Button OnClick="OnClose" Text="@WtmBlazor.Localizer["Sys.Close"]"/>
+  </div>
+
+</ValidateForm>
+
+
+
+@code {
+    [Parameter]
+    public string id { get; set; }
+    [Parameter]
+    public string[] ids { get; set; }
+    private MailManageBatchVM Model = new MailManageBatchVM();
+    private ValidateForm vform { get; set; }
+    
+    private async Task Submit(EditContext context)
+    {
+        Model.Ids = ids;
+        await PostsForm(vform, "/api/_Admin/MailManage/BatchEdit", (s) => WtmBlazor.Localizer["Sys.BatchEditSuccess", s], method: HttpMethodEnum.POST);
+    }
+            
+
+    public void OnClose()
+    {
+        CloseDialog();
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        
+        
+
+        await base.OnInitializedAsync();
+    }
+}

@@ -1,0 +1,62 @@
+﻿
+@page "/_Admin/AmazonSiteInfo/Create"
+@using AmazonTools.ViewModel._Admin.AmazonSiteInfoVMs
+@using System.ComponentModel.DataAnnotations
+@inherits BasePage
+
+<div>
+  <ValidateForm @ref="vform" Model="@Model" OnValidSubmit="@Submit" >
+    <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
+      <Select @bind-Value="@Model.Entity.SiteName" PlaceHolder="@WtmBlazor.Localizer["Sys.PleaseSelect"]" Id="g8973cea775e049428cdd8ff0e542f02c"/>
+      <BootstrapInput @bind-Value="@Model.Entity.Mail"/>
+      <BootstrapInput @bind-Value="@Model.Entity.MailPassWord"/>
+      <BootstrapInput @bind-Value="@Model.Entity.AccountPassWord"/>
+      <BootstrapInput @bind-Value="@Model.Entity.CreditCard"/>
+      <BootstrapInput @bind-Value="@Model.Entity.SecurityCode"/>
+      <BootstrapInput @bind-Value="@Model.Entity.ValidityPeriod"/>
+      <BootstrapInput @bind-Value="@Model.Entity.Phone"/>
+      <Select @bind-Value="@Model.Entity.AmazonState" PlaceHolder="@WtmBlazor.Localizer["Sys.PleaseSelect"]" Id="g4384599fe37c421c9aa254e2fc95bdcf"/>
+      <Select @bind-Value="@Model.Entity.AmazonUserId" Items="AllAmazonUsers" PlaceHolder="@WtmBlazor.Localizer["Sys.PleaseSelect"]" Id="gaffad472e0824843b633c32607b03bdf"/>
+      <WTUploadFile @bind-Value="@Model.Entity.GooogleVerificationId"/>
+    </Row>
+
+    <div class="modal-footer table-modal-footer">
+      <Button ButtonType="ButtonType.Submit" IsAsync="true" Text="@WtmBlazor.Localizer["Sys.Submit"]"/>
+      <Button OnClick="OnClose" Text="@WtmBlazor.Localizer["Sys.Close"]"/>
+    </div>
+
+  </ValidateForm>
+
+</div>
+
+
+
+@code {
+    [Parameter]
+    public string id { get; set; }
+    [Parameter]
+    public string[] ids { get; set; }
+    private AmazonSiteInfoVM Model = new AmazonSiteInfoVM();
+    private ValidateForm vform { get; set; }
+    private async Task Submit(EditContext context)
+    {
+                        
+        
+        await PostsForm(vform, "/api/_Admin/AmazonSiteInfo/Create", (s) => "Sys.OprationSuccess");
+    }
+    public void OnClose()
+    {
+        CloseDialog();
+    }
+    
+    private List<SelectedItem> AllAmazonUsers = new List<SelectedItem>();
+    protected override async Task OnInitializedAsync()
+    {
+        
+        
+        AllAmazonUsers = await WtmBlazor.Api.CallItemsApi("/api/_Admin/AmazonSiteInfo/GetAmazonUserInfos");
+        AllAmazonUsers.Insert(0, new SelectedItem { Text = WtmBlazor.Localizer["Sys.PleaseSelect"],Value = "" });
+
+        await base.OnInitializedAsync();
+    }
+}

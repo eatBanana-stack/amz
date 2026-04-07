@@ -1,0 +1,56 @@
+﻿
+@page "/_Admin/CreditCardManage/Edit"
+@using AmazonTools.ViewModel._Admin.CreditCardManageVMs
+@using System.ComponentModel.DataAnnotations
+@inherits BasePage
+
+<div>
+  <ValidateForm @ref="vform" Model="@Model" OnValidSubmit="@Submit" >
+    <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
+      <BootstrapInput @bind-Value="@Model.Entity.CreditCard"/>
+      <BootstrapInput @bind-Value="@Model.Entity.SecurityCode"/>
+      <BootstrapInput @bind-Value="@Model.Entity.ValidityPeriod"/>
+    </Row>
+
+    <div class="modal-footer table-modal-footer">
+      <Button ButtonType="ButtonType.Submit" IsAsync="true" Text="@WtmBlazor.Localizer["Sys.Submit"]"/>
+      <Button OnClick="OnClose" Text="@WtmBlazor.Localizer["Sys.Close"]"/>
+    </div>
+
+  </ValidateForm>
+
+</div>
+
+
+
+@code {
+    [Parameter]
+    public string id { get; set; }
+    [Parameter]
+    public string[] ids { get; set; }
+    private CreditCardManageVM Model = new CreditCardManageVM();
+    private ValidateForm vform { get; set; }
+    private async Task Submit(EditContext context)
+    {
+                        
+        
+        await PostsForm(vform, "/api/_Admin/CreditCardManage/Edit", (s) => "Sys.OprationSuccess", method: HttpMethodEnum.PUT);
+    }
+    public void OnClose()
+    {
+        CloseDialog();
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        
+        
+        if (id != "")
+        {
+            var rv = await WtmBlazor.Api.CallAPI<CreditCardManageVM>($"/api/_Admin/CreditCardManage/{id}");
+            Model = rv.Data;
+        }
+
+        await base.OnInitializedAsync();
+    }
+}
