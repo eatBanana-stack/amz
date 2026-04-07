@@ -14,6 +14,8 @@ namespace AmazonTools.ViewModel._Admin.MailManageVMs
     public partial class MailManageVM : BaseCRUDVM<MailManage>
     {
         
+        public List<string> _AdminMailManageFTempSelected { get; set; }
+
         public MailManageVM()
         {
             

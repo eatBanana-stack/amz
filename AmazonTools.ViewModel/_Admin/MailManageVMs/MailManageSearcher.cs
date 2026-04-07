@@ -13,6 +13,7 @@ namespace AmazonTools.ViewModel._Admin.MailManageVMs
     public partial class MailManageSearcher : BaseSearcher
     {
         
+        public List<string> _AdminMailManageSTempSelected { get; set; }
         [Display(Name = "_Model._MailManage._Mail")]
         public string Mail { get; set; }
         [Display(Name = "_Model._MailManage._PassWord")]

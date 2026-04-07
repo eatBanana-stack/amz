@@ -33,6 +33,7 @@ namespace AmazonTools
                 .ConfigureWebHostDefaults(webBuilder =>
                  {
                      webBuilder.UseStartup<Startup>();
+                     webBuilder.UseWebRoot("wwwroot").UseStaticWebAssets();
                  });
         }
     }

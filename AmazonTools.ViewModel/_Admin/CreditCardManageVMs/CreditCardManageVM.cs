@@ -14,6 +14,8 @@ namespace AmazonTools.ViewModel._Admin.CreditCardManageVMs
     public partial class CreditCardManageVM : BaseCRUDVM<CreditCardManage>
     {
         
+        public List<string> _AdminCreditCardManageFTempSelected { get; set; }
+
         public CreditCardManageVM()
         {
             

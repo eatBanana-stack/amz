@@ -1,0 +1,15 @@
+﻿
+@model AmazonTools.ViewModel._Admin.DicDefVMs.DicDefListVM
+@using WalkingTec.Mvvm.Core.Extensions;
+@inject IStringLocalizer<Program> Localizer;
+
+<wt:searchpanel vm="@Model" reset-btn="true" chart-prefix="Searcher"  grid-id="Gb6d8fb51acf04b4d925708f3bc1b7efd" id="gridGb6d8fb51acf04b4d925708f3bc1b7efd">
+  <wt:row  items-per-row="ItemsPerRowEnum.Three">
+    <wt:textbox field="Searcher.DicName"/>
+  </wt:row>
+
+</wt:searchpanel>
+
+<wt:grid vm="@Model" url="/_Admin/DicDef/SearchDicDef"  id="Gb6d8fb51acf04b4d925708f3bc1b7efd" search-panel-id="gridGb6d8fb51acf04b4d925708f3bc1b7efd"/>
+
+

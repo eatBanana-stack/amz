@@ -12,6 +12,7 @@ namespace AmazonTools.ViewModel._Admin.FrameworkUserVMs
     public partial class FrameworkUserSearcher : BaseSearcher
     {
         
+        public List<string> _AdminFrameworkUserSTempSelected { get; set; }
         [Display(Name = "_Model._FrameworkUser._ITCode")]
         public string ITCode { get; set; }
         [Display(Name = "_Model._FrameworkUser._Name")]

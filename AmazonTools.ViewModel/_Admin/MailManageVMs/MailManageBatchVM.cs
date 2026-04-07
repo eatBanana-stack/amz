@@ -34,6 +34,7 @@ namespace AmazonTools.ViewModel._Admin.MailManageVMs
     {
 
         
+        public List<string> _AdminMailManageBTempSelected { get; set; }
         [Display(Name = "_Model._MailManage._Mail")]
         public string Mail { get; set; }
         [Display(Name = "_Model._MailManage._PassWord")]

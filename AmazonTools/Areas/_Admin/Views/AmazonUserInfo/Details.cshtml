@@ -1,0 +1,65 @@
+﻿
+@model AmazonTools.ViewModel._Admin.AmazonUserInfoVMs.AmazonUserInfoVM
+@using WalkingTec.Mvvm.Core.Extensions;
+@inject IStringLocalizer<Program> Localizer;
+
+<wt:container>
+  <wt:form vm="@Model"  >
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:display field="Entity.FaUserNameCn" disabled="true"/>
+      <wt:display field="Entity.FaUserNameUs" disabled="true"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:display field="Entity.FaIdCard" disabled="true"/>
+      <wt:display field="Entity.FaBornTime" disabled="true"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:display field="Entity.FaEndTime" disabled="true"/>
+      <wt:display field="Entity.LicenseCn" disabled="true"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:display field="Entity.LicenseUs" disabled="true"/>
+      <wt:display field="Entity.LicenseCode" disabled="true"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:upload field="Entity.LicensePhotoId" disabled="true" upload-type="ImageFile" thumb-width="128"/>
+      <wt:upload field="Entity.IDCardPhotoZId" disabled="true" upload-type="ImageFile" thumb-width="128"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:upload field="Entity.IDCardPhotoFId" disabled="true" upload-type="ImageFile" thumb-width="128"/>
+      <wt:display field="Entity.License" disabled="true"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:display field="Entity.MailingAddress" disabled="true"/>
+      <wt:display field="Entity.MailingZipCode" disabled="true"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:display field="Entity.LicenseAddress" disabled="true"/>
+      <wt:display field="Entity.LicenseZipCode" disabled="true"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:multiupload field="Entity.BusinessLicenseHeld" disabled="true" upload-type="ImageFile" thumb-width="128"/>
+      <wt:multiupload field="Entity.IDcardheld" disabled="true" upload-type="ImageFile" thumb-width="128"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:display field="Entity.BelongingName.DicFieldDes" disabled="true" label-text="@Localizer["Page.代理"].Value"/>
+      <wt:display field="Entity.CreateTime" disabled="true"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:display field="Entity.UpdateTime" disabled="true"/>
+      <wt:display field="Entity.CreateBy" disabled="true"/>
+    </wt:row>
+
+    <wt:container id="g9360277601">
+      <wt:grid use-local-data="true" hidden-panel="true" hidden-checkbox="true" height="-400"  vm="AmazonSiteInfoAmazonUserList2" disabled="true" label-text="@Localizer["Page.客户"].Value" hide-label="true"/>
+    </wt:container>
+
+    <wt:container align="AlignEnum.Right">
+      <wt:closebutton  text="@Localizer["Sys.Close"].Value"/>
+    </wt:container>
+
+  </wt:form>
+
+</wt:container>
+
+

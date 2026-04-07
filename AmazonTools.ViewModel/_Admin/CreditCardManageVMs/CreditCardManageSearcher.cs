@@ -13,6 +13,7 @@ namespace AmazonTools.ViewModel._Admin.CreditCardManageVMs
     public partial class CreditCardManageSearcher : BaseSearcher
     {
         
+        public List<string> _AdminCreditCardManageSTempSelected { get; set; }
         [Display(Name = "_Model._CreditCardManage._CreditCard")]
         public string CreditCard { get; set; }
         [Display(Name = "_Model._CreditCardManage._SecurityCode")]

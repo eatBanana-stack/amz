@@ -1,0 +1,42 @@
+﻿
+@model AmazonTools.ViewModel._Admin.AmazonSiteInfoVMs.AmazonSiteInfoVM
+@using WalkingTec.Mvvm.Core.Extensions;
+@inject IStringLocalizer<Program> Localizer;
+
+<wt:container>
+  <wt:form vm="@Model" url="/_Admin/AmazonSiteInfo/Edit" >
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:combobox field="Entity.SiteNameId"  item-url="/_Admin/AmazonSiteInfo/GetDicFields站点" label-text="@Localizer["Page.站点"].Value" empty-text="@Localizer["Sys.PleaseSelect"]" id="g965226e56ec04c59927b76e49ac2bc1e" multi-select="false"/>
+      <wt:textbox field="Entity.Mail"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:textbox field="Entity.MailPassWord"/>
+      <wt:textbox field="Entity.AccountPassWord"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:textbox field="Entity.CreditCard"/>
+      <wt:textbox field="Entity.SecurityCode"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:textbox field="Entity.ValidityPeriod"/>
+      <wt:textbox field="Entity.Phone"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:combobox field="Entity.AmazonStateId"  item-url="/_Admin/AmazonSiteInfo/GetDicFields站点状态" label-text="@Localizer["Page.状态"].Value" empty-text="@Localizer["Sys.PleaseSelect"]" id="g5b4ee0e7dc164c67aadcd7d7dd7f7d3f" multi-select="false"/>
+      <wt:combobox field="Entity.AmazonUserId"  item-url="/_Admin/AmazonSiteInfo/GetAmazonUserInfos" label-text="@Localizer["Page.客户"].Value" empty-text="@Localizer["Sys.PleaseSelect"]" id="g36ddb5d0287f400aae34e086a7fd237b" multi-select="false"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:upload field="Entity.GooogleVerificationId"/>
+    </wt:row>
+
+    <wt:container align="AlignEnum.Right">
+      <wt:submitbutton  text="@Localizer["Sys.Submit"].Value"/>
+      <wt:closebutton  text="@Localizer["Sys.Close"].Value"/>
+    </wt:container>
+
+    <wt:hidden field="Entity.ID" />
+  </wt:form>
+
+</wt:container>
+
+

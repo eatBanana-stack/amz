@@ -7,6 +7,7 @@ using WalkingTec.Mvvm.Core;
 using WalkingTec.Mvvm.Core.Extensions;
 using Microsoft.EntityFrameworkCore;
 
+using AmazonTools.ViewModel._Admin.DicFieldVMs;
 using AmazonTools.ViewModel._Admin.AmazonUserInfoVMs;
 using AmazonTools.Model._Admin;
 using AmazonTools.Model;
@@ -15,10 +16,13 @@ namespace AmazonTools.ViewModel._Admin.AmazonSiteInfoVMs
     public partial class AmazonSiteInfoVM : BaseCRUDVM<AmazonSiteInfo>
     {
         
+        public List<string> _AdminAmazonSiteInfoFTempSelected { get; set; }
 
         public AmazonSiteInfoVM()
         {
             
+            SetInclude(x => x.SiteName);
+            SetInclude(x => x.AmazonState);
             SetInclude(x => x.AmazonUser);
 
         }

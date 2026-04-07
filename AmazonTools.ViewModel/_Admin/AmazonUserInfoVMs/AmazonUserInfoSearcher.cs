@@ -13,6 +13,7 @@ namespace AmazonTools.ViewModel._Admin.AmazonUserInfoVMs
     public partial class AmazonUserInfoSearcher : BaseSearcher
     {
         
+        public List<string> _AdminAmazonUserInfoSTempSelected { get; set; }
         [Display(Name = "_Model._AmazonUserInfo._FaUserNameCn")]
         public string FaUserNameCn { get; set; }
         [Display(Name = "_Model._AmazonUserInfo._FaUserNameUs")]
@@ -36,7 +37,8 @@ namespace AmazonTools.ViewModel._Admin.AmazonUserInfoVMs
         [Display(Name = "_Model._AmazonUserInfo._MailingZipCode")]
         public string MailingZipCode { get; set; }
         [Display(Name = "_Model._AmazonUserInfo._BelongingName")]
-        public DicDef BelongingName { get; set; }
+        public Guid? BelongingNameId { get; set; }
+        public List<ComboSelectListItem> AllBelongingNames { get; set; }
         [Display(Name = "_Model._AmazonUserInfo._LicenseAddress")]
         public string LicenseAddress { get; set; }
         [Display(Name = "_Model._AmazonUserInfo._LicenseZipCode")]
@@ -53,6 +55,7 @@ namespace AmazonTools.ViewModel._Admin.AmazonUserInfoVMs
         protected override void InitVM()
         {
             
+
         }
     }
 

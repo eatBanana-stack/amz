@@ -34,6 +34,7 @@ namespace AmazonTools.ViewModel._Admin.CreditCardManageVMs
     {
 
         
+        public List<string> _AdminCreditCardManageBTempSelected { get; set; }
         [Display(Name = "_Model._CreditCardManage._CreditCard")]
         public string CreditCard { get; set; }
         [Display(Name = "_Model._CreditCardManage._SecurityCode")]

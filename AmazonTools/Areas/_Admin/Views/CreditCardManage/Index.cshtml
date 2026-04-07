@@ -1,0 +1,25 @@
+﻿
+@model AmazonTools.ViewModel._Admin.CreditCardManageVMs.CreditCardManageListVM
+@using WalkingTec.Mvvm.Core.Extensions;
+@inject IStringLocalizer<Program> Localizer;
+
+<wt:searchpanel vm="@Model" reset-btn="true" chart-prefix="Searcher"  grid-id="G4cb2d94a7f684eb6b542ae9722ed22fc" id="gridG4cb2d94a7f684eb6b542ae9722ed22fc">
+  <wt:row  items-per-row="ItemsPerRowEnum.Three">
+    <wt:textbox field="Searcher.CreditCard"/>
+    <wt:textbox field="Searcher.SecurityCode"/>
+    <wt:textbox field="Searcher.ValidityPeriod"/>
+  </wt:row>
+  <wt:row  items-per-row="ItemsPerRowEnum.Three">
+    <wt:datetime field="Searcher.CreateTime" range="true"/>
+    <wt:datetime field="Searcher.UpdateTime" range="true"/>
+    <wt:textbox field="Searcher.CreateBy"/>
+  </wt:row>
+  <wt:row  items-per-row="ItemsPerRowEnum.Three">
+    <wt:textbox field="Searcher.UpdateBy"/>
+  </wt:row>
+
+</wt:searchpanel>
+
+<wt:grid vm="@Model" url="/_Admin/CreditCardManage/SearchCreditCardManage"  id="G4cb2d94a7f684eb6b542ae9722ed22fc" search-panel-id="gridG4cb2d94a7f684eb6b542ae9722ed22fc"/>
+
+

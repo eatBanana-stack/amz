@@ -1,0 +1,22 @@
+﻿
+@model AmazonTools.ViewModel._Admin.MailManageVMs.MailManageListVM
+@using WalkingTec.Mvvm.Core.Extensions;
+@inject IStringLocalizer<Program> Localizer;
+
+<wt:searchpanel vm="@Model" reset-btn="true" chart-prefix="Searcher"  grid-id="Gc33898bcd1a0422b88a7ffceb123cf5e" id="gridGc33898bcd1a0422b88a7ffceb123cf5e">
+  <wt:row  items-per-row="ItemsPerRowEnum.Three">
+    <wt:textbox field="Searcher.Mail"/>
+    <wt:textbox field="Searcher.PassWord"/>
+    <wt:datetime field="Searcher.CreateTime" range="true"/>
+  </wt:row>
+  <wt:row  items-per-row="ItemsPerRowEnum.Three">
+    <wt:datetime field="Searcher.UpdateTime" range="true"/>
+    <wt:textbox field="Searcher.CreateBy"/>
+    <wt:textbox field="Searcher.UpdateBy"/>
+  </wt:row>
+
+</wt:searchpanel>
+
+<wt:grid vm="@Model" url="/_Admin/MailManage/SearchMailManage"  id="Gc33898bcd1a0422b88a7ffceb123cf5e" search-panel-id="gridGc33898bcd1a0422b88a7ffceb123cf5e"/>
+
+

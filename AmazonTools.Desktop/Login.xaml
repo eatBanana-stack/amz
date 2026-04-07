@@ -1,0 +1,46 @@
+﻿<Window
+    x:Class="AmazonTools.Desktop.Login"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:local="clr-namespace:AmazonTools.Desktop"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="禾飞科技"
+    Width="400"
+    Height="250"
+    ResizeMode="NoResize"
+    mc:Ignorable="d">
+
+    <DockPanel
+        Grid.Column="1"
+        Margin="15"
+        VerticalAlignment="Center">
+        <TextBox
+            x:Name="tbUserName"
+            Margin="0,10"
+            hc:InfoElement.Title="账号:"
+            hc:InfoElement.TitlePlacement="Left"
+            DockPanel.Dock="Top"
+            Foreground="Black"
+            Style="{DynamicResource TextBoxExtend}"
+            Text="" />
+        <PasswordBox
+            x:Name="tbPassword"
+            Margin="0,10"
+            hc:InfoElement.Title="密码:"
+            hc:InfoElement.TitlePlacement="Left"
+            DockPanel.Dock="Top"
+            Foreground="Black"
+            Password=""
+            Style="{DynamicResource PasswordBoxExtend}" />
+
+        <Button
+            Width="100"
+            Click="Button_Click_Login"
+            Content="登录"
+            DockPanel.Dock="Top"
+            Style="{DynamicResource ButtonSuccess}" />
+    </DockPanel>
+
+</Window>

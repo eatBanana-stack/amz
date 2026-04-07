@@ -13,6 +13,7 @@ namespace AmazonTools.ViewModel._Admin.FrameworkUserVMs
     public partial class FrameworkUserVM : BaseCRUDVM<FrameworkUser>
     {
         
+        public List<string> _AdminFrameworkUserFTempSelected { get; set; }
         [Display(Name = "_Model.FrameworkRole")]
         public List<string> SelectedFrameworkUserRolesIDs { get; set; }
         [Display(Name = "_Model.FrameworkGroup")]

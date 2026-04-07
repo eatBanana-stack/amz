@@ -1,0 +1,48 @@
+﻿
+@model AmazonTools.ViewModel._Admin.AmazonSiteInfoVMs.AmazonSiteInfoVM
+@using WalkingTec.Mvvm.Core.Extensions;
+@inject IStringLocalizer<Program> Localizer;
+
+<wt:container>
+  <wt:form vm="@Model"  >
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:display field="Entity.SiteName.DicFieldDes" disabled="true" label-text="@Localizer["Page.站点"].Value"/>
+      <wt:display field="Entity.Mail" disabled="true"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:display field="Entity.MailPassWord" disabled="true"/>
+      <wt:display field="Entity.AccountPassWord" disabled="true"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:display field="Entity.CreditCard" disabled="true"/>
+      <wt:display field="Entity.SecurityCode" disabled="true"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:display field="Entity.ValidityPeriod" disabled="true"/>
+      <wt:display field="Entity.Phone" disabled="true"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:display field="Entity.AmazonState.DicFieldDes" disabled="true" label-text="@Localizer["Page.状态"].Value"/>
+      <wt:display field="Entity.AmazonUser.FaUserNameCn" disabled="true" label-text="@Localizer["Page.客户"].Value"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:upload field="Entity.GooogleVerificationId" disabled="true" upload-type="ImageFile" thumb-width="128"/>
+      <wt:display field="Entity.CreateTime" disabled="true"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:display field="Entity.UpdateTime" disabled="true"/>
+      <wt:display field="Entity.CreateBy" disabled="true"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:display field="Entity.UpdateBy" disabled="true"/>
+    </wt:row>
+
+    <wt:container align="AlignEnum.Right">
+      <wt:closebutton  text="@Localizer["Sys.Close"].Value"/>
+    </wt:container>
+
+  </wt:form>
+
+</wt:container>
+
+

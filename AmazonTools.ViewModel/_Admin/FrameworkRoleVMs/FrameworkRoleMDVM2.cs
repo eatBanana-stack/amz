@@ -46,28 +46,19 @@ namespace WalkingTec.Mvvm.Mvc.Admin.ViewModels.FrameworkRoleVMs
 
             if (Wtm.ConfigInfo.EnableTenant == true && LoginUserInfo.CurrentTenant != null)
             {
-                var ct = Wtm.GlobaInfo.AllTenant.Where(x => x.TCode == LoginUserInfo.CurrentTenant).FirstOrDefault();
+                var hostonly = Wtm.GlobaInfo.AllMainTenantOnlyUrls;
                 for (int i = 0; i < topdata.Count; i++)
                 {
-                    if (topdata[i].TenantAllowed == false || (topdata[i].Url != null && ct.EnableSub == false && topdata[i].Url.ToLower().Contains("frameworktenant")))
-                    {
-                        topdata.RemoveAt(i);
-                        i--;
-                        continue;
-                    }
-                    var hostonly = Wtm.GlobaInfo.AllMainTenantOnlyUrls;
                     foreach (var au in hostonly)
                     {
-                        if (topdata[i].Url != null && new Regex("^" + au + "[/\\?]?", RegexOptions.IgnoreCase).IsMatch(topdata[i].Url))
+                        if (topdata[i].TenantAllowed == false || (topdata[i].Url != null && new Regex("^" + au + "[/\\?]?", RegexOptions.IgnoreCase).IsMatch(topdata[i].Url)))
                         {
                             topdata.RemoveAt(i);
                             i--;
-                            break;
                         }
                     }
                 }
             }
-
 
             int order = 0;
             var data2 = topdata.Select(x => new Page_View

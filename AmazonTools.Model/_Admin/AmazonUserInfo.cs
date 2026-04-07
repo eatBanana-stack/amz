@@ -71,9 +71,17 @@ namespace AmazonTools.Model._Admin
         public string MailingZipCode { get; set; }
         [Display(Name = "_Model._AmazonUserInfo._BelongingName")]
         [Comment("代理")]
-        public DicDef BelongingName { get; set; }
+        [RefDicName(Name = "代理")]
+        public DicField BelongingName { get; set; }
         [Display(Name = "_Model._AmazonUserInfo._BelongingName")]
+        [Comment("代理")]
         public Guid? BelongingNameId { get; set; }
+        [Display(Name = "_Model._AmazonUserInfo._IDcardheld")]
+        [Comment("身份证手持")]
+        public List<AmazonUserInfoIDcardheld> IDcardheld { get; set; }
+        [Display(Name = "_Model._AmazonUserInfo._BusinessLicenseHeld")]
+        [Comment("营业执照手持")]
+        public List<AmazonUserInfoBusinessLicenseHeld> BusinessLicenseHeld { get; set; }
         [Display(Name = "_Model._AmazonUserInfo._LicenseAddress")]
         [Comment("营业执照地址")]
         public string LicenseAddress { get; set; }
@@ -85,5 +93,21 @@ namespace AmazonTools.Model._Admin
         public List<AmazonSiteInfo> AmazonSiteInfo_AmazonUser { get; set; }
 
 	}
+    public class AmazonUserInfoIDcardheld : TopBasePoco, ISubFile
+    {
+        public Guid AmazonUserInfoId { get; set; }
+        public AmazonUserInfo AmazonUserInfo { get; set; }
+        public Guid FileId { get; set; }
+        public FileAttachment File { get; set; }
+        public int Order { get; set; }
+    }
+    public class AmazonUserInfoBusinessLicenseHeld : TopBasePoco, ISubFile
+    {
+        public Guid AmazonUserInfoId { get; set; }
+        public AmazonUserInfo AmazonUserInfo { get; set; }
+        public Guid FileId { get; set; }
+        public FileAttachment File { get; set; }
+        public int Order { get; set; }
+    }
 
 }

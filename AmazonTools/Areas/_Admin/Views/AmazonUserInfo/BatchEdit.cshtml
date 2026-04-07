@@ -1,0 +1,46 @@
+﻿
+@model AmazonTools.ViewModel._Admin.AmazonUserInfoVMs.AmazonUserInfoBatchVM
+@using WalkingTec.Mvvm.Core.Extensions;
+@inject IStringLocalizer<Program> Localizer;
+
+<wt:form vm="@Model" url="/_Admin/AmazonUserInfo/DoBatchEdit?1=1">
+  <div style="margin-bottom:10px;"> "@Localizer["Sys.BatchEditConfirm"].Value"</div>
+  <wt:row  items-per-row="ItemsPerRowEnum.Two">
+    <wt:textbox field="LinkedVM.FaUserNameCn"/>
+    <wt:textbox field="LinkedVM.FaUserNameUs"/>
+  </wt:row>
+  <wt:row  items-per-row="ItemsPerRowEnum.Two">
+    <wt:textbox field="LinkedVM.FaIdCard"/>
+    <wt:textbox field="LinkedVM.FaBornTime"/>
+  </wt:row>
+  <wt:row  items-per-row="ItemsPerRowEnum.Two">
+    <wt:textbox field="LinkedVM.FaEndTime"/>
+    <wt:textbox field="LinkedVM.LicenseCn"/>
+  </wt:row>
+  <wt:row  items-per-row="ItemsPerRowEnum.Two">
+    <wt:textbox field="LinkedVM.LicenseUs"/>
+    <wt:textbox field="LinkedVM.LicenseCode"/>
+  </wt:row>
+  <wt:row  items-per-row="ItemsPerRowEnum.Two">
+    <wt:textbox field="LinkedVM.License"/>
+    <wt:textbox field="LinkedVM.MailingAddress"/>
+  </wt:row>
+  <wt:row  items-per-row="ItemsPerRowEnum.Two">
+    <wt:textbox field="LinkedVM.MailingZipCode"/>
+    <wt:combobox field="LinkedVM.BelongingNameId"  item-url="/_Admin/AmazonUserInfo/GetDicFields代理" label-text="@Localizer["Page.代理"].Value" id="gc5953119288e4aacbc6894e9df76cb3c"/>
+  </wt:row>
+  <wt:row  items-per-row="ItemsPerRowEnum.Two">
+    <wt:textbox field="LinkedVM.LicenseAddress"/>
+    <wt:textbox field="LinkedVM.LicenseZipCode"/>
+  </wt:row>
+
+  <wt:container align="AlignEnum.Right">
+    <wt:submitbutton  text="@Localizer["Sys.Submit"].Value"/>
+    <wt:closebutton  text="@Localizer["Sys.Close"].Value"/>
+  </wt:container>
+
+  <wt:hidden field="Ids" />
+  <wt:grid vm="ListVM" use-local-data="true" height="300" hidden-checkbox="true" hidden-panel="true" />
+</wt:form>
+
+

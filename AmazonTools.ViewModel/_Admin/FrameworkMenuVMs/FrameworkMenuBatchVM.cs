@@ -32,6 +32,7 @@ namespace WalkingTec.Mvvm.Mvc.Admin.ViewModels.FrameworkMenuVMs
         }
     }
 
+
     public class FrameworkMenu_BatchEdit : BaseVM
     {
         public List<Guid> IDs { get; set; }

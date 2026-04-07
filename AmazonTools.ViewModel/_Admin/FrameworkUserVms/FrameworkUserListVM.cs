@@ -12,6 +12,23 @@ namespace AmazonTools.ViewModel._Admin.FrameworkUserVMs
     public partial class FrameworkUserListVM : BasePagedListVM<FrameworkUser_View, FrameworkUserSearcher>
     {
         
+        protected override List<GridAction> InitGridAction()
+        {
+            return new List<GridAction>
+            {
+                this.MakeAction("FrameworkUser","Create",@Localizer["Sys.Create"].Value,@Localizer["Sys.Create"].Value,GridActionParameterTypesEnum.SingleIdWithNull,"_Admin",800).SetShowInRow(false).SetHideOnToolBar(false).SetIconCls("fa fa-plus"),
+                this.MakeAction("FrameworkUser","Edit",@Localizer["Sys.Edit"].Value,@Localizer["Sys.Edit"].Value,GridActionParameterTypesEnum.SingleIdWithNull,"_Admin",800).SetShowInRow(true).SetHideOnToolBar(true).SetIconCls("fa fa-pencil-square").SetButtonClass("layui-btn-warm"),
+                this.MakeAction("FrameworkUser","Details",@Localizer["Page.详情"].Value,@Localizer["Page.详情"].Value,GridActionParameterTypesEnum.SingleIdWithNull,"_Admin",800).SetShowInRow(true).SetHideOnToolBar(true).SetIconCls("fa fa-info-circle").SetButtonClass("layui-btn-normal"),
+                this.MakeAction("FrameworkUser","Import",@Localizer["Sys.Import"].Value,@Localizer["Sys.Import"].Value,GridActionParameterTypesEnum.SingleIdWithNull,"_Admin",800).SetShowInRow(false).SetHideOnToolBar(false).SetIconCls("fa fa-tasks"),
+                this.MakeStandardAction("FrameworkUser", GridActionStandardTypesEnum.SimpleDelete, @Localizer["Sys.Delete"].Value, "_Admin", dialogWidth: 800).SetIconCls("fa fa-trash").SetButtonClass("layui-btn-danger"),
+                this.MakeStandardAction("FrameworkUser", GridActionStandardTypesEnum.SimpleBatchDelete, Localizer["Sys.BatchDelete"].Value, "_Admin", dialogWidth: 800).SetIconCls("fa fa-trash").SetButtonClass("layui-btn-danger"),
+                this.MakeAction("FrameworkUser","BatchEdit",@Localizer["Sys.BatchEdit"].Value,@Localizer["Sys.BatchEdit"].Value,GridActionParameterTypesEnum.MultiIds,"_Admin",800).SetShowInRow(false).SetHideOnToolBar(false).SetIconCls("fa fa-pencil-square"),
+                this.MakeAction("FrameworkUser","FrameworkUserExportExcel",@Localizer["Sys.Export"].Value,@Localizer["Sys.Export"].Value,GridActionParameterTypesEnum.MultiIdWithNull,"_Admin").SetShowInRow(false).SetShowDialog(false).SetHideOnToolBar(false).SetIsExport(true).SetIconCls("fa fa-arrow-circle-down"),
+                this.MakeAction("FrameworkUser","Password",@Localizer["Login.ChangePassword"].Value,@Localizer["Login.ChangePassword"].Value,GridActionParameterTypesEnum.SingleIdWithNull,"_Admin",800).SetShowInRow(true).SetHideOnToolBar(true).SetIconCls("fa fa-unlock-alt").SetButtonClass("layui-btn-warm"),
+            };
+        }
+ 
+
         protected override IEnumerable<IGridColumn<FrameworkUser_View>> InitGridHeader()
         {
             return new List<GridColumn<FrameworkUser_View>>{
@@ -23,13 +40,23 @@ namespace AmazonTools.ViewModel._Admin.FrameworkUserVMs
                 this.MakeGridHeader(x => x.FrameworkUser_Role).SetTitle(@Localizer["_Admin.Role"].Value),
                 this.MakeGridHeader(x => x.FrameworkUser_Group).SetTitle(@Localizer["_Admin.Group"].Value),
                 this.MakeGridHeader(x => x.FrameworkUser_IsValid).SetTitle(@Localizer["_Admin.IsValid"].Value),
-                this.MakeGridHeader(x => x.FrameworkUser_Photo).SetTitle(@Localizer["_Admin.Photo"].Value),
+                this.MakeGridHeader(x => x.FrameworkUser_Photo).SetTitle(@Localizer["_Admin.Photo"].Value).SetFormat(FrameworkUser_PhotoFormat),
 
-                this.MakeGridHeaderAction(width: 200)
+                this.MakeGridHeaderAction(width: 240)
             };
         }
 
         
+        private List<ColumnFormatInfo> FrameworkUser_PhotoFormat(FrameworkUser_View entity, object val)
+        {
+            return new List<ColumnFormatInfo>
+            {
+                ColumnFormatInfo.MakeDownloadButton(ButtonTypesEnum.Button,entity.FrameworkUser_Photo),
+                ColumnFormatInfo.MakeViewButton(ButtonTypesEnum.Button,entity.FrameworkUser_Photo,640,480),
+            };
+        }
+
+
         public override IOrderedQueryable<FrameworkUser_View> GetSearchQuery()
         {
             var query = DC.Set<FrameworkUser>()

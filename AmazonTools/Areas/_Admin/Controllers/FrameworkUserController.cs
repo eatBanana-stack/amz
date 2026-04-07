@@ -1,73 +1,156 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using WalkingTec.Mvvm.Core;
-using WalkingTec.Mvvm.Core.Extensions;
 using WalkingTec.Mvvm.Mvc;
+using WalkingTec.Mvvm.Core.Extensions;
+using System.Collections.Generic;
 using AmazonTools.Model;
-
 
 namespace AmazonTools._Admin.Controllers
 {
-    [AuthorizeJwtWithCookie]
-    public partial class FrameworkUserController : BaseApiController
+    public partial class FrameworkUserController : BaseController
     {
-                                                        
-        [ActionDescription("Sys.Search")]
-        [HttpPost("[action]")]
+        
+        [ActionDescription("_Page._Admin.FrameworkUser.Create")]
+        public ActionResult Create()
+        {
+
+            if (ConfigInfo.HasMainHost && Wtm.LoginUserInfo?.CurrentTenant == null)
+            {
+                return Content(Localizer["_Admin.HasMainHost"]);
+            }
+
+            var vm = Wtm.CreateVM<AmazonTools.ViewModel._Admin.FrameworkUserVMs.FrameworkUserVM>();
+            return PartialView(vm);
+        }
+
+        
+        [ActionDescription("_Page._Admin.FrameworkUser.Edit")]
+        public ActionResult Edit(string id)
+        {
+
+            if (ConfigInfo.HasMainHost && Wtm.LoginUserInfo?.CurrentTenant == null)
+            {
+                return Content(Localizer["_Admin.HasMainHost"]);
+            }
+
+            var vm = Wtm.CreateVM<AmazonTools.ViewModel._Admin.FrameworkUserVMs.FrameworkUserVM>(id);
+            vm.Entity.Password = "";
+            return PartialView(vm);
+        }
+
+        
+        [ActionDescription("_Page._Admin.FrameworkUser.Index", IsPage = true)]
+        public ActionResult Index(string id)
+        {
+
+            if (ConfigInfo.HasMainHost && Wtm.LoginUserInfo?.CurrentTenant == null)
+            {
+                return Content(Localizer["_Admin.HasMainHost"]);
+            }
+
+            var vm = Wtm.CreateVM<AmazonTools.ViewModel._Admin.FrameworkUserVMs.FrameworkUserListVM>();
+            if (string.IsNullOrEmpty(id) == false)
+            {
+            }
+            return PartialView(vm);
+        }
+
+        
+        [ActionDescription("_Page._Admin.FrameworkUser.Password")]
+        public ActionResult Password(string id)
+        {
+
+            if (ConfigInfo.HasMainHost && Wtm.LoginUserInfo?.CurrentTenant == null)
+            {
+                return Content(Localizer["_Admin.HasMainHost"]);
+            }
+
+            var vm = Wtm.CreateVM<AmazonTools.ViewModel._Admin.FrameworkUserVMs.FrameworkUserVM>(id);
+            vm.Entity.Password = "";
+            return PartialView(vm);
+        }
+
+        
+        [ActionDescription("_Page._Admin.FrameworkUser.Details")]
+        public ActionResult Details(string id)
+        {
+
+            if (ConfigInfo.HasMainHost && Wtm.LoginUserInfo?.CurrentTenant == null)
+            {
+                return Content(Localizer["_Admin.HasMainHost"]);
+            }
+
+            var vm = Wtm.CreateVM<AmazonTools.ViewModel._Admin.FrameworkUserVMs.FrameworkUserVM>(id);
+            return PartialView(vm);
+        }
+
+        
+        [ActionDescription("_Page._Admin.FrameworkUser.Import")]
+        public ActionResult Import()
+        {
+
+            if (ConfigInfo.HasMainHost && Wtm.LoginUserInfo?.CurrentTenant == null)
+            {
+                return Content(Localizer["_Admin.HasMainHost"]);
+            }
+
+            var vm = Wtm.CreateVM<AmazonTools.ViewModel._Admin.FrameworkUserVMs.FrameworkUserImportVM>();
+            return PartialView(vm);
+        }
+
+        
+        [ActionDescription("_Page._Admin.FrameworkUser.BatchEdit")]
+        [HttpPost]
+        public ActionResult BatchEdit(string[] IDs)
+        {
+
+            if (ConfigInfo.HasMainHost && Wtm.LoginUserInfo?.CurrentTenant == null)
+            {
+                return Content(Localizer["_Admin.HasMainHost"]);
+            }
+
+            var vm = Wtm.CreateVM<AmazonTools.ViewModel._Admin.FrameworkUserVMs.FrameworkUserBatchVM>(Ids: IDs);
+            return PartialView(vm);
+        }
+
+
+        #region Search
+        [ActionDescription("SearchFrameworkUser")]
+        [HttpPost]
         public IActionResult SearchFrameworkUser(AmazonTools.ViewModel._Admin.FrameworkUserVMs.FrameworkUserSearcher searcher)
         {
             if (ConfigInfo.HasMainHost && Wtm.LoginUserInfo?.CurrentTenant == null)
             {
-                return Request.RedirectCall(Wtm).Result;
+                return Content(Localizer["_Admin.HasMainHost"]);
             }
+            var vm = Wtm.CreateVM<AmazonTools.ViewModel._Admin.FrameworkUserVMs.FrameworkUserListVM>(passInit: true);
             if (ModelState.IsValid)
             {
-                var vm = Wtm.CreateVM<AmazonTools.ViewModel._Admin.FrameworkUserVMs.FrameworkUserListVM>();
                 vm.Searcher = searcher;
-                return Content(vm.GetJson(enumToString: false));
+                return Content(vm.GetJson(false));
             }
             else
             {
-                return BadRequest(ModelState.GetErrorJson());
+                return Content(vm.GetError());
             }
         }
+        #endregion
 
         [ActionDescription("Sys.Export")]
-        [HttpPost("[action]")]
-        public IActionResult FrameworkUserExportExcel(AmazonTools.ViewModel._Admin.FrameworkUserVMs.FrameworkUserSearcher searcher)
+        [HttpPost]
+        public IActionResult FrameworkUserExportExcel(AmazonTools.ViewModel._Admin.FrameworkUserVMs.FrameworkUserListVM vm)
         {
             if (ConfigInfo.HasMainHost && Wtm.LoginUserInfo?.CurrentTenant == null)
             {
-                ModelState.AddModelError(" mh", Localizer["_Admin.HasMainHost"]);
-                return BadRequest(ModelState.GetErrorJson());
-            }
-            var vm = Wtm.CreateVM<AmazonTools.ViewModel._Admin.FrameworkUserVMs.FrameworkUserListVM>();
-            vm.Searcher = searcher;
-            vm.SearcherMode = ListVMSearchModeEnum.Export;
-            return vm.GetExportData();
-        }
-
-        [ActionDescription("Sys.CheckExport")]
-        [HttpPost("[action]")]
-        public IActionResult FrameworkUserExportExcelByIds(string[] ids)
-        {
-            if (ConfigInfo.HasMainHost && Wtm.LoginUserInfo?.CurrentTenant == null)
-            {
-                ModelState.AddModelError(" mh", Localizer["_Admin.HasMainHost"]);
-                return BadRequest(ModelState.GetErrorJson());
-            }
-            var vm = Wtm.CreateVM<AmazonTools.ViewModel._Admin.FrameworkUserVMs.FrameworkUserListVM>();
-            if (ids != null && ids.Count() > 0)
-            {
-                vm.Ids = new List<string>(ids);
-                vm.SearcherMode = ListVMSearchModeEnum.CheckExport;
+                return Content(Localizer["_Admin.HasMainHost"]);
             }
             return vm.GetExportData();
         }
-    
+        
     }
 }
 

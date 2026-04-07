@@ -20,10 +20,11 @@ namespace AmazonTools.Model._Admin
     {
         [Display(Name = "_Model._AmazonSiteInfo._SiteName")]
         [Comment("站点")]
-        [Required(ErrorMessage = "Validate.{0}required")]
-        public DicDef SiteName { get; set; }
+        [RefDicName(Name = "站点")]
+        public DicField SiteName { get; set; }
         [Display(Name = "_Model._AmazonSiteInfo._SiteName")]
         [Required(ErrorMessage = "Validate.{0}required")]
+        [Comment("站点")]
         public Guid? SiteNameId { get; set; }
         [Display(Name = "_Model._AmazonSiteInfo._Mail")]
         [Comment("邮箱")]
@@ -47,10 +48,11 @@ namespace AmazonTools.Model._Admin
         public string Phone { get; set; }
         [Display(Name = "_Model._AmazonSiteInfo._AmazonState")]
         [Comment("状态")]
-        [Required(ErrorMessage = "Validate.{0}required")]
-        public DicDef AmazonState { get; set; }
+        [RefDicName(Name = "站点状态")]
+        public DicField AmazonState { get; set; }
         [Display(Name = "_Model._AmazonSiteInfo._AmazonState")]
         [Required(ErrorMessage = "Validate.{0}required")]
+        [Comment("状态")]
         public Guid? AmazonStateId { get; set; }
         [Display(Name = "_Model._AmazonSiteInfo._AmazonUser")]
         [Comment("客户")]

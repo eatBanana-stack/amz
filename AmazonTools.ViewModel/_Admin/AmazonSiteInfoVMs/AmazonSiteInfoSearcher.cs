@@ -13,8 +13,10 @@ namespace AmazonTools.ViewModel._Admin.AmazonSiteInfoVMs
     public partial class AmazonSiteInfoSearcher : BaseSearcher
     {
         
+        public List<string> _AdminAmazonSiteInfoSTempSelected { get; set; }
         [Display(Name = "_Model._AmazonSiteInfo._SiteName")]
-        public DicDef SiteName { get; set; }
+        public Guid? SiteNameId { get; set; }
+        public List<ComboSelectListItem> AllSiteNames { get; set; }
         [Display(Name = "_Model._AmazonSiteInfo._Mail")]
         public string Mail { get; set; }
         [Display(Name = "_Model._AmazonSiteInfo._MailPassWord")]
@@ -30,9 +32,11 @@ namespace AmazonTools.ViewModel._Admin.AmazonSiteInfoVMs
         [Display(Name = "_Model._AmazonSiteInfo._Phone")]
         public string Phone { get; set; }
         [Display(Name = "_Model._AmazonSiteInfo._AmazonState")]
-        public DicDef AmazonState { get; set; }
+        public Guid? AmazonStateId { get; set; }
+        public List<ComboSelectListItem> AllAmazonStates { get; set; }
         [Display(Name = "_Model._AmazonSiteInfo._AmazonUser")]
         public Guid? AmazonUserId { get; set; }
+        public List<ComboSelectListItem> AllAmazonUsers { get; set; }
         [Display(Name = "_Model._AmazonSiteInfo._CreateTime")]
         public DateRange CreateTime { get; set; }
         [Display(Name = "_Model._AmazonSiteInfo._UpdateTime")]

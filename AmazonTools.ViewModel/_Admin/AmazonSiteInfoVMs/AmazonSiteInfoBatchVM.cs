@@ -34,8 +34,9 @@ namespace AmazonTools.ViewModel._Admin.AmazonSiteInfoVMs
     {
 
         
+        public List<string> _AdminAmazonSiteInfoBTempSelected { get; set; }
         [Display(Name = "_Model._AmazonSiteInfo._SiteName")]
-        public DicDef SiteName { get; set; }
+        public Guid? SiteNameId { get; set; }
         [Display(Name = "_Model._AmazonSiteInfo._Mail")]
         public string Mail { get; set; }
         [Display(Name = "_Model._AmazonSiteInfo._MailPassWord")]
@@ -51,7 +52,7 @@ namespace AmazonTools.ViewModel._Admin.AmazonSiteInfoVMs
         [Display(Name = "_Model._AmazonSiteInfo._Phone")]
         public string Phone { get; set; }
         [Display(Name = "_Model._AmazonSiteInfo._AmazonState")]
-        public DicDef AmazonState { get; set; }
+        public Guid? AmazonStateId { get; set; }
         [Display(Name = "_Model._AmazonSiteInfo._AmazonUser")]
         public Guid? AmazonUserId { get; set; }
 

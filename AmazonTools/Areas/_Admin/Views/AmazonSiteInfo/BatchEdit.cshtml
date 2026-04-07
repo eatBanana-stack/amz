@@ -1,0 +1,38 @@
+﻿
+@model AmazonTools.ViewModel._Admin.AmazonSiteInfoVMs.AmazonSiteInfoBatchVM
+@using WalkingTec.Mvvm.Core.Extensions;
+@inject IStringLocalizer<Program> Localizer;
+
+<wt:form vm="@Model" url="/_Admin/AmazonSiteInfo/DoBatchEdit?1=1">
+  <div style="margin-bottom:10px;"> "@Localizer["Sys.BatchEditConfirm"].Value"</div>
+  <wt:row  items-per-row="ItemsPerRowEnum.Two">
+    <wt:combobox field="LinkedVM.SiteNameId"  item-url="/_Admin/AmazonSiteInfo/GetDicFields站点" label-text="@Localizer["Page.站点"].Value" id="g4bc76119af5f4a9dbdd717ac1435f5df"/>
+    <wt:textbox field="LinkedVM.Mail"/>
+  </wt:row>
+  <wt:row  items-per-row="ItemsPerRowEnum.Two">
+    <wt:textbox field="LinkedVM.MailPassWord"/>
+    <wt:textbox field="LinkedVM.AccountPassWord"/>
+  </wt:row>
+  <wt:row  items-per-row="ItemsPerRowEnum.Two">
+    <wt:textbox field="LinkedVM.CreditCard"/>
+    <wt:textbox field="LinkedVM.SecurityCode"/>
+  </wt:row>
+  <wt:row  items-per-row="ItemsPerRowEnum.Two">
+    <wt:textbox field="LinkedVM.ValidityPeriod"/>
+    <wt:textbox field="LinkedVM.Phone"/>
+  </wt:row>
+  <wt:row  items-per-row="ItemsPerRowEnum.Two">
+    <wt:combobox field="LinkedVM.AmazonStateId"  item-url="/_Admin/AmazonSiteInfo/GetDicFields站点状态" label-text="@Localizer["Page.状态"].Value" id="g3b56eda75ea94107bd48f2b011c40c82"/>
+    <wt:combobox field="LinkedVM.AmazonUserId"  item-url="/_Admin/AmazonSiteInfo/GetAmazonUserInfos" label-text="@Localizer["Page.客户"].Value" id="gc42b69139ea04f6fa97ece364758bd28"/>
+  </wt:row>
+
+  <wt:container align="AlignEnum.Right">
+    <wt:submitbutton  text="@Localizer["Sys.Submit"].Value"/>
+    <wt:closebutton  text="@Localizer["Sys.Close"].Value"/>
+  </wt:container>
+
+  <wt:hidden field="Ids" />
+  <wt:grid vm="ListVM" use-local-data="true" height="300" hidden-checkbox="true" hidden-panel="true" />
+</wt:form>
+
+

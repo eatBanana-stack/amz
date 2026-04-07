@@ -1,0 +1,20 @@
+﻿
+@model AmazonTools.ViewModel._Admin.DicDefVMs.DicDefVM
+@using WalkingTec.Mvvm.Core.Extensions;
+@inject IStringLocalizer<Program> Localizer;
+
+<wt:form vm="@Model"  >
+  <wt:row  items-per-row="ItemsPerRowEnum.One">
+    <wt:display field="Entity.DicName" disabled="true"/>
+  </wt:row>
+  <wt:row  items-per-row="ItemsPerRowEnum.One">
+    <wt:grid use-local-data="true" hidden-panel="true" hidden-checkbox="true" height="-400"  vm="DicFieldDicDefList2" disabled="true" hide-label="true"/>
+  </wt:row>
+
+  <wt:container align="AlignEnum.Right">
+    <wt:closebutton  text="@Localizer["Sys.Close"].Value"/>
+  </wt:container>
+
+</wt:form>
+
+

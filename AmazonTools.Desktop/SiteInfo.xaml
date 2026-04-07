@@ -1,0 +1,218 @@
+﻿<UserControl
+    x:Class="AmazonTools.Desktop.SiteInfo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:local="clr-namespace:AmazonTools.Desktop"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="620"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <local:ButtonStateConverter x:Key="ButtonStateConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80" />
+            <RowDefinition />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBox
+                x:Name="tb_UserName"
+                Width="250"
+                Margin="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                hc:InfoElement.Title="姓名："
+                hc:InfoElement.TitlePlacement="Left"
+                Style="{DynamicResource TextBoxExtend}" />
+            <ComboBox
+                x:Name="cb_zhandian"
+                Width="250"
+                Margin="280,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                hc:InfoElement.Title="站点："
+                hc:InfoElement.TitlePlacement="Left"
+                Style="{DynamicResource ComboBoxExtend}" />
+            <TextBox
+                x:Name="tb_Mail"
+                Grid.Row="1"
+                Width="250"
+                Margin="280,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                hc:InfoElement.Title="邮箱："
+                hc:InfoElement.TitlePlacement="Left"
+                Style="{DynamicResource TextBoxExtend}" />
+            <ComboBox
+                x:Name="cb_zhuangtai"
+                Grid.Row="1"
+                Width="250"
+                Margin="10,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                hc:InfoElement.Title="状态："
+                hc:InfoElement.TitlePlacement="Left"
+                Style="{DynamicResource ComboBoxExtend}" />
+            <Button
+                Grid.Row="1"
+                Width="200"
+                Margin="580,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Click="Button_Click_Select"
+                Content="查询"
+                Style="{DynamicResource ButtonSuccess}" />
+            <Button
+                Grid.Row="0"
+                Width="200"
+                Margin="580,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Click="Button_Click_add"
+                Content="添加"
+                Style="{DynamicResource ButtonWarning}" />
+        </Grid>
+
+        <hc:TransitioningContentControl Grid.Row="1">
+            <TabControl>
+                <TabItem
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Header="数据表格">
+                    <DataGrid
+                        x:Name="dg_filter"
+                        hc:DataGridAttach.CanUnselectAllWithBlankArea="True"
+                        AutoGenerateColumns="False"
+                        HeadersVisibility="All"
+                        RowHeaderWidth="60">
+
+                        <DataGrid.RowHeaderTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=DataGridRow}}" />
+                            </DataTemplate>
+                        </DataGrid.RowHeaderTemplate>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Width="80"
+                                Binding="{Binding SiteName.DicFieldDes}"
+                                CanUserResize="False"
+                                Header="站点"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Width="90"
+                                Binding="{Binding AmazonUser.FaUserNameCn}"
+                                CanUserResize="False"
+                                Header=" 姓名"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Width="90"
+                                Binding="{Binding AmazonUser.BelongingName.DicFieldDes}"
+                                CanUserResize="False"
+                                Header="代理"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Width="90"
+                                Binding="{Binding AmazonUser.CreateBy}"
+                                CanUserResize="False"
+                                Header="创建人"
+                                IsReadOnly="True" />
+
+                            <DataGridTemplateColumn CanUserResize="False" Header="         状态">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button
+                                            Width="100"
+                                            Height="30"
+                                            Click="Button_Click_UpdateState"
+                                            Content="{Binding AmazonState.DicFieldDes}"
+                                            Foreground="White">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Background" Value="#43a9c7" />
+                                                    <Setter Property="Foreground" Value="White" />
+                                                    <Setter Property="BorderThickness" Value="0" />
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <!--  使用Border控件实现圆角  -->
+                                                                <Border
+                                                                    x:Name="border"
+                                                                    Background="{TemplateBinding Background}"
+                                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                                    CornerRadius="4">
+                                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+
+                                                    <Setter Property="Background" Value="Red" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding AmazonState.DicFieldDes}" Value="未激活">
+                                                            <Setter Property="Background" Value="Green" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding AmazonState.DicFieldDes}" Value="待人脸">
+                                                            <Setter Property="Background" Value="Orange" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding AmazonState.DicFieldDes}" Value="机会被占用">
+                                                            <Setter Property="Background" Value="Gray" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+
+                                            </Button.Style>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn CanUserResize="False" Header="设置或查看验证码">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button
+                                            Width="100"
+                                            Height="30"
+                                            Background="{Binding GooogleVerificationId, Converter={StaticResource ButtonStateConverter}, ConverterParameter=Background}"
+                                            Click="Button_Click_ValidatorWindows"
+                                            Content="{Binding GooogleVerificationId, Converter={StaticResource ButtonStateConverter}}"
+                                            Style="{DynamicResource ButtonInfo}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn CanUserResize="False" Header=" 一键打包资料">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button
+                                            Width="100"
+                                            Height="30"
+                                            Click="Button_Click_admin"
+                                            Content="打包"
+                                            Style="{DynamicResource ButtonDashedSuccess}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+
+                </TabItem>
+            </TabControl>
+        </hc:TransitioningContentControl>
+        <hc:Pagination
+            x:Name="pg_page"
+            Grid.Row="2"
+            HorizontalAlignment="Right"
+            IsJumpEnabled="True"
+            MaxPageCount="1"
+            PageUpdated="pg_page_PageUpdated"
+            PageIndex="1" />
+    </Grid>
+</UserControl>

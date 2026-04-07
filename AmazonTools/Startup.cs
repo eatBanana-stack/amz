@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -7,13 +6,12 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using WalkingTec.Mvvm.Core;
 using WalkingTec.Mvvm.Core.Extensions;
 using WalkingTec.Mvvm.Core.Support.FileHandlers;
 using WalkingTec.Mvvm.Mvc;
-using WtmBlazorUtils;
+using System;
 
 namespace AmazonTools
 {
@@ -27,25 +25,25 @@ namespace AmazonTools
             ConfigRoot = config;
         }
 
+
         // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            var config = ConfigRoot.Get<Configs>();
             services.AddWtmWorkflow(ConfigRoot);
+            services.AddDistributedMemoryCache();
             services.AddWtmSession(3600, ConfigRoot);
             services.AddWtmCrossDomain(ConfigRoot);
             services.AddWtmAuthentication(ConfigRoot);
             services.AddWtmHttpClient(ConfigRoot);
             services.AddWtmSwagger(true);
-            services.AddWtmMultiLanguages(ConfigRoot,op => op.LocalizationType = typeof(Shared.Program));
+            services.AddWtmMultiLanguages(ConfigRoot);
+
 
             services.AddMvc(options =>
             {
                 options.UseWtmMvcOptions();
             })
-            .AddJsonOptions(options =>
-            {
+            .AddJsonOptions(options => {
                 options.UseWtmJsonOptions();
             })
             
@@ -54,45 +52,23 @@ namespace AmazonTools
                 options.UseWtmApiOptions();
             })
             .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-           .AddWtmDataAnnotationsLocalization(typeof(Shared.Program));
-            if (config.BlazorMode == BlazorModeEnum.Server)
-            {
-                services.AddServerSideBlazor();
-                services.AddBootstrapBlazor(null, options =>
-                {
-                    options.ResourceManagerStringLocalizerType = typeof(Shared.Program);
-                });
-                services.AddWtmBlazor(config);
-            }
-            services.AddWtmContext(ConfigRoot, (options) =>
-            {
+            .AddWtmDataAnnotationsLocalization(typeof(Program));
+            
+            services.AddWtmContext(ConfigRoot, (options)=> {
                 options.DataPrivileges = DataPrivilegeSettings();
                 options.CsSelector = CSSelector;
                 options.FileSubDirSelector = SubDirSelector;
                 options.ReloadUserFunc = ReloadUser;
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IOptionsMonitor<Configs> configs)
         {
-            IconFontsHelper.GenerateIconFont("wwwroot/font", "wwwroot/font-awesome");
-            var configs = app.ApplicationServices.GetRequiredService<IOptions<Configs>>().Value;
+            IconFontsHelper.GenerateIconFont("wwwroot/layui","wwwroot/font-awesome");
 
-            if (configs == null)
-            {
-                throw new InvalidOperationException("Can not find Configs service, make sure you call AddWtmContext at ConfigService");
-            }
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseWebAssemblyDebugging();
-            }
-            else
-            {
-                app.UseExceptionHandler(configs.ErrorHandler);
-            }
-
+            app.UseExceptionHandler(configs.CurrentValue.ErrorHandler);
             app.UseStaticFiles();
             app.UseWtmStaticFiles();
             app.UseRouting();
@@ -104,39 +80,18 @@ namespace AmazonTools
             app.UseWtmSwagger();
             app.UseWtm();
 
-            if (configs.BlazorMode == BlazorModeEnum.Server)
+            app.UseEndpoints(endpoints =>
             {
-                app.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapBlazorHub();
-                    endpoints.MapRazorPages();
-                    endpoints.MapControllerRoute(
-                       name: "areaRoute",
-                       pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                    endpoints.MapControllerRoute(
-                        name: "default",
-                        pattern: "{controller=Home}/{action=Index}/{id?}");
-                    endpoints.MapFallbackToPage("/_Host");
-                });
-            }
-            else
-            {
-                app.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapRazorPages();
-                    endpoints.MapControllerRoute(
-                       name: "areaRoute",
-                       pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                    endpoints.MapControllerRoute(
-                        name: "default",
-                        pattern: "{controller=Home}/{action=Index}/{id?}");
-                    endpoints.MapFallbackToFile("index.html");
-                });
-            }
-            app.UseBlazorFrameworkFiles();
-            app.UseWtmContext(true);
-        }
+                endpoints.MapControllerRoute(
+                   name: "areaRoute",
+                   pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
 
+            app.UseWtmContext();
+        }
 
         /// <summary>
         /// Wtm will call this function to dynamiclly set connection string
@@ -188,7 +143,5 @@ namespace AmazonTools
         {
             return null;
         }
-
     }
-
 }

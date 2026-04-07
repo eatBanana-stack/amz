@@ -13,6 +13,22 @@ namespace AmazonTools.ViewModel._Admin.MailManageVMs
     public partial class MailManageListVM : BasePagedListVM<MailManage_View, MailManageSearcher>
     {
         
+        protected override List<GridAction> InitGridAction()
+        {
+            return new List<GridAction>
+            {
+                this.MakeAction("MailManage","Create",@Localizer["Sys.Create"].Value,@Localizer["Sys.Create"].Value,GridActionParameterTypesEnum.SingleIdWithNull,"_Admin",800).SetShowInRow(false).SetHideOnToolBar(false).SetIconCls("fa fa-plus"),
+                this.MakeAction("MailManage","Edit",@Localizer["Sys.Edit"].Value,@Localizer["Sys.Edit"].Value,GridActionParameterTypesEnum.SingleIdWithNull,"_Admin",800).SetShowInRow(true).SetHideOnToolBar(true).SetIconCls("fa fa-pencil-square").SetButtonClass("layui-btn-warm"),
+                this.MakeAction("MailManage","Details",@Localizer["Page.详情"].Value,@Localizer["Page.详情"].Value,GridActionParameterTypesEnum.SingleIdWithNull,"_Admin",800).SetShowInRow(true).SetHideOnToolBar(true).SetIconCls("fa fa-info-circle").SetButtonClass("layui-btn-normal"),
+                this.MakeStandardAction("MailManage", GridActionStandardTypesEnum.SimpleDelete, @Localizer["Sys.Delete"].Value, "_Admin", dialogWidth: 800).SetIconCls("fa fa-trash").SetButtonClass("layui-btn-danger"),
+                this.MakeStandardAction("MailManage", GridActionStandardTypesEnum.SimpleBatchDelete, Localizer["Sys.BatchDelete"].Value, "_Admin", dialogWidth: 800).SetIconCls("fa fa-trash").SetButtonClass("layui-btn-danger"),
+                this.MakeAction("MailManage","BatchEdit",@Localizer["Sys.BatchEdit"].Value,@Localizer["Sys.BatchEdit"].Value,GridActionParameterTypesEnum.MultiIds,"_Admin",800).SetShowInRow(false).SetHideOnToolBar(false).SetIconCls("fa fa-pencil-square"),
+                this.MakeAction("MailManage","Import",@Localizer["Sys.Import"].Value,@Localizer["Sys.Import"].Value,GridActionParameterTypesEnum.SingleIdWithNull,"_Admin",800).SetShowInRow(false).SetHideOnToolBar(false).SetIconCls("fa fa-tasks"),
+                this.MakeAction("MailManage","MailManageExportExcel",@Localizer["Sys.Export"].Value,@Localizer["Sys.Export"].Value,GridActionParameterTypesEnum.MultiIdWithNull,"_Admin").SetShowInRow(false).SetShowDialog(false).SetHideOnToolBar(false).SetIsExport(true).SetIconCls("fa fa-arrow-circle-down"),
+            };
+        }
+ 
+
         protected override IEnumerable<IGridColumn<MailManage_View>> InitGridHeader()
         {
             return new List<GridColumn<MailManage_View>>{
@@ -29,6 +45,7 @@ namespace AmazonTools.ViewModel._Admin.MailManageVMs
         }
 
         
+
         public override IOrderedQueryable<MailManage_View> GetSearchQuery()
         {
             var query = DC.Set<MailManage>()

@@ -1,0 +1,21 @@
+﻿
+@model AmazonTools.ViewModel._Admin.DicDefVMs.DicDefVM
+@using WalkingTec.Mvvm.Core.Extensions;
+@inject IStringLocalizer<Program> Localizer;
+
+<wt:form vm="@Model" url="/_Admin/DicDef/Create" >
+  <wt:row  items-per-row="ItemsPerRowEnum.One">
+    <wt:textbox field="Entity.DicName"/>
+  </wt:row>
+  <wt:row  items-per-row="ItemsPerRowEnum.One">
+    <wt:grid use-local-data="true" hidden-panel="true" hidden-checkbox="true" height="-400"  vm="DicFieldDicDefList" hide-label="true"/>
+  </wt:row>
+
+  <wt:container align="AlignEnum.Right">
+    <wt:submitbutton  text="@Localizer["Sys.Submit"].Value"/>
+    <wt:closebutton  text="@Localizer["Sys.Close"].Value"/>
+  </wt:container>
+
+</wt:form>
+
+

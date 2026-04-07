@@ -1,0 +1,68 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<UseWPF>true</UseWPF>
+		<AssemblyName>AmazonTools.Desktop</AssemblyName>
+		<RootNamespace>AmazonTools.Desktop</RootNamespace>
+		<Version>1.0.0.0</Version>
+		<Configurations>Debug;Release</Configurations>
+		<Copyright>Copyright © Hezf8 2025</Copyright>
+		<FileVersion>1.0.0.0</FileVersion>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
+		<LangVersion>latest</LangVersion>
+		<ApplicationIcon>favicon.ico</ApplicationIcon>
+		<PlatformTarget>x64</PlatformTarget>
+		<Authors>郴州禾飞科技有限公司</Authors>
+		<Company>郴州禾飞科技有限公司</Company>
+		<Product>郴州禾飞科技有限公司</Product>
+		<Description>用于公司信息管理</Description>
+		<PackageIcon>favicon.ico</PackageIcon>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DefineConstants>TRACE;Core</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DefineConstants>TRACE;Core</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net10.0-windows10.0.17763.0</TargetFramework>
+		<PublishProtocol>ClickOnce</PublishProtocol>
+		<SelfContained>false</SelfContained>
+	</PropertyGroup>
+	<PropertyGroup>
+		<SignManifests>true</SignManifests>
+		<ManifestCertificateThumbprint>...</ManifestCertificateThumbprint>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Remove="UserAccount.json" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="favicon.ico" />
+		<Content Include="UserAccount.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AlibabaCloud.SDK.Address-purification20191118" Version="2.0.1" />
+		<PackageReference Include="DotNetCommon.PinYin" Version="3.0.0" />
+		<PackageReference Include="GTranslate" Version="2.3.1" />
+		<PackageReference Include="HandyControls" Version="3.5.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.10" />
+		<PackageReference Include="TencentCloudSDK.Ocr" Version="3.0.1184" />
+		<PackageReference Include="ZXing.Net" Version="0.16.10" />
+		<PackageReference Include="ZXing.Net.Bindings.Windows.Compatibility" Version="0.16.13" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\AmazonTools.Model\AmazonTools.Model.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="favicon.ico">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Tools\" />
+	</ItemGroup>
+</Project>

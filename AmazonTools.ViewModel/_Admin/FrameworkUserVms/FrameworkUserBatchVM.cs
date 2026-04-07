@@ -82,6 +82,7 @@ namespace AmazonTools.ViewModel._Admin.FrameworkUserVMs
     {
 
         
+        public List<string> _AdminFrameworkUserBTempSelected { get; set; }
         [Display(Name = "_Model._FrameworkUser._Email")]
         public string Email { get; set; }
         [Display(Name = "_Model._FrameworkUser._Gender")]

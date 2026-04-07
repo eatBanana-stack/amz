@@ -1,0 +1,41 @@
+﻿
+@model AmazonTools.ViewModel._Admin.AmazonSiteInfoVMs.AmazonSiteInfoVM
+@using WalkingTec.Mvvm.Core.Extensions;
+@inject IStringLocalizer<Program> Localizer;
+
+<wt:container>
+  <wt:form vm="@Model" url="/_Admin/AmazonSiteInfo/Create" >
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:combobox field="Entity.SiteNameId"  item-url="/_Admin/AmazonSiteInfo/GetDicFields站点" label-text="@Localizer["Page.站点"].Value" empty-text="@Localizer["Sys.PleaseSelect"]" id="g8973cea775e049428cdd8ff0e542f02c" multi-select="false"/>
+      <wt:textbox field="Entity.Mail"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:textbox field="Entity.MailPassWord"/>
+      <wt:textbox field="Entity.AccountPassWord"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:textbox field="Entity.CreditCard"/>
+      <wt:textbox field="Entity.SecurityCode"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:textbox field="Entity.ValidityPeriod"/>
+      <wt:textbox field="Entity.Phone"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:combobox field="Entity.AmazonStateId"  item-url="/_Admin/AmazonSiteInfo/GetDicFields站点状态" label-text="@Localizer["Page.状态"].Value" empty-text="@Localizer["Sys.PleaseSelect"]" id="g4384599fe37c421c9aa254e2fc95bdcf" multi-select="false"/>
+      <wt:combobox field="Entity.AmazonUserId"  item-url="/_Admin/AmazonSiteInfo/GetAmazonUserInfos" label-text="@Localizer["Page.客户"].Value" empty-text="@Localizer["Sys.PleaseSelect"]" id="gaffad472e0824843b633c32607b03bdf" multi-select="false"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:upload field="Entity.GooogleVerificationId"/>
+    </wt:row>
+
+    <wt:container align="AlignEnum.Right">
+      <wt:submitbutton  text="@Localizer["Sys.Submit"].Value"/>
+      <wt:closebutton  text="@Localizer["Sys.Close"].Value"/>
+    </wt:container>
+
+  </wt:form>
+
+</wt:container>
+
+

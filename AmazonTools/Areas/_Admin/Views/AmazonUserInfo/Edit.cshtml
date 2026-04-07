@@ -1,0 +1,62 @@
+﻿
+@model AmazonTools.ViewModel._Admin.AmazonUserInfoVMs.AmazonUserInfoVM
+@using WalkingTec.Mvvm.Core.Extensions;
+@inject IStringLocalizer<Program> Localizer;
+
+<wt:container>
+  <wt:form vm="@Model" url="/_Admin/AmazonUserInfo/Edit" >
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:textbox field="Entity.FaUserNameCn"/>
+      <wt:textbox field="Entity.FaUserNameUs"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:textbox field="Entity.FaIdCard"/>
+      <wt:textbox field="Entity.FaBornTime"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:textbox field="Entity.FaEndTime"/>
+      <wt:textbox field="Entity.LicenseCn"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:textbox field="Entity.LicenseUs"/>
+      <wt:textbox field="Entity.LicenseCode"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:upload field="Entity.LicensePhotoId"/>
+      <wt:upload field="Entity.IDCardPhotoZId"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:upload field="Entity.IDCardPhotoFId"/>
+      <wt:textbox field="Entity.License"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:textbox field="Entity.MailingAddress"/>
+      <wt:textbox field="Entity.MailingZipCode"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:textbox field="Entity.LicenseAddress"/>
+      <wt:textbox field="Entity.LicenseZipCode"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:multiupload field="Entity.IDcardheld"/>
+      <wt:multiupload field="Entity.BusinessLicenseHeld"/>
+    </wt:row>
+    <wt:row  items-per-row="ItemsPerRowEnum.Two">
+      <wt:combobox field="Entity.BelongingNameId"  item-url="/_Admin/AmazonUserInfo/GetDicFields代理" label-text="@Localizer["Page.代理"].Value" empty-text="@Localizer["Sys.PleaseSelect"]" id="g1653dde0b131490cbdf1f7a2a75f5f67" multi-select="false"/>
+    </wt:row>
+
+    <wt:container id="g2302570763">
+      <wt:grid use-local-data="true" hidden-panel="true" hidden-checkbox="true" height="-400"  vm="AmazonSiteInfoAmazonUserList1" label-text="@Localizer["Page.客户"].Value" hide-label="true"/>
+    </wt:container>
+
+    <wt:container align="AlignEnum.Right">
+      <wt:submitbutton  text="@Localizer["Sys.Submit"].Value"/>
+      <wt:closebutton  text="@Localizer["Sys.Close"].Value"/>
+    </wt:container>
+
+    <wt:hidden field="Entity.ID" />
+  </wt:form>
+
+</wt:container>
+
+

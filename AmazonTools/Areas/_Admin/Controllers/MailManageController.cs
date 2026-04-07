@@ -1,60 +1,103 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using WalkingTec.Mvvm.Core;
-using WalkingTec.Mvvm.Core.Extensions;
 using WalkingTec.Mvvm.Mvc;
+using WalkingTec.Mvvm.Core.Extensions;
+using System.Collections.Generic;
 using AmazonTools.Model;
 using AmazonTools.ViewModel._Admin.MailManageVMs;
 
-
 namespace AmazonTools._Admin.Controllers
 {
-    [AuthorizeJwtWithCookie]
-    public partial class MailManageController : BaseApiController
+    public partial class MailManageController : BaseController
     {
-                                                
-        [ActionDescription("Sys.Search")]
-        [HttpPost("[action]")]
+        
+        [ActionDescription("_Page._Admin.MailManage.Create")]
+        public ActionResult Create()
+        {
+
+            var vm = Wtm.CreateVM<AmazonTools.ViewModel._Admin.MailManageVMs.MailManageVM>();
+            return PartialView(vm);
+        }
+
+        
+        [ActionDescription("_Page._Admin.MailManage.Edit")]
+        public ActionResult Edit(string id)
+        {
+
+            var vm = Wtm.CreateVM<AmazonTools.ViewModel._Admin.MailManageVMs.MailManageVM>(id);
+            return PartialView(vm);
+        }
+
+        
+        [ActionDescription("_Page._Admin.MailManage.Index", IsPage = true)]
+        public ActionResult Index(string id)
+        {
+
+            var vm = Wtm.CreateVM<AmazonTools.ViewModel._Admin.MailManageVMs.MailManageListVM>();
+            if (string.IsNullOrEmpty(id) == false)
+            {
+            }
+            return PartialView(vm);
+        }
+
+        
+        [ActionDescription("_Page._Admin.MailManage.Details")]
+        public ActionResult Details(string id)
+        {
+
+            var vm = Wtm.CreateVM<AmazonTools.ViewModel._Admin.MailManageVMs.MailManageVM>(id);
+            return PartialView(vm);
+        }
+
+        
+        [ActionDescription("_Page._Admin.MailManage.Import")]
+        public ActionResult Import()
+        {
+
+            var vm = Wtm.CreateVM<AmazonTools.ViewModel._Admin.MailManageVMs.MailManageImportVM>();
+            return PartialView(vm);
+        }
+
+        
+        [ActionDescription("_Page._Admin.MailManage.BatchEdit")]
+        [HttpPost]
+        public ActionResult BatchEdit(string[] IDs)
+        {
+
+            var vm = Wtm.CreateVM<AmazonTools.ViewModel._Admin.MailManageVMs.MailManageBatchVM>(Ids: IDs);
+            return PartialView(vm);
+        }
+
+
+        #region Search
+        [ActionDescription("SearchMailManage")]
+        [HttpPost]
         public IActionResult SearchMailManage(AmazonTools.ViewModel._Admin.MailManageVMs.MailManageSearcher searcher)
         {
+            var vm = Wtm.CreateVM<AmazonTools.ViewModel._Admin.MailManageVMs.MailManageListVM>(passInit: true);
             if (ModelState.IsValid)
             {
-                var vm = Wtm.CreateVM<AmazonTools.ViewModel._Admin.MailManageVMs.MailManageListVM>();
                 vm.Searcher = searcher;
-                return Content(vm.GetJson(enumToString: false));
+                return Content(vm.GetJson(false));
             }
             else
             {
-                return BadRequest(ModelState.GetErrorJson());
+                return Content(vm.GetError());
             }
         }
+        #endregion
 
         [ActionDescription("Sys.Export")]
-        [HttpPost("[action]")]
-        public IActionResult MailManageExportExcel(AmazonTools.ViewModel._Admin.MailManageVMs.MailManageSearcher searcher)
+        [HttpPost]
+        public IActionResult MailManageExportExcel(AmazonTools.ViewModel._Admin.MailManageVMs.MailManageListVM vm)
         {
-            var vm = Wtm.CreateVM<AmazonTools.ViewModel._Admin.MailManageVMs.MailManageListVM>();
-            vm.Searcher = searcher;
-            vm.SearcherMode = ListVMSearchModeEnum.Export;
             return vm.GetExportData();
         }
-
-        [ActionDescription("Sys.CheckExport")]
-        [HttpPost("[action]")]
-        public IActionResult MailManageExportExcelByIds(string[] ids)
-        {
-            var vm = Wtm.CreateVM<AmazonTools.ViewModel._Admin.MailManageVMs.MailManageListVM>();
-            if (ids != null && ids.Count() > 0)
-            {
-                vm.Ids = new List<string>(ids);
-                vm.SearcherMode = ListVMSearchModeEnum.CheckExport;
-            }
-            return vm.GetExportData();
-        }
-    
+        
     }
 }
 

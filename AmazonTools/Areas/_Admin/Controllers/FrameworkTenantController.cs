@@ -1,240 +1,294 @@
-// WTM默认页面 Wtm buidin page
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using WalkingTec.Mvvm.Core;
-using WalkingTec.Mvvm.Core.Extensions;
 using WalkingTec.Mvvm.Mvc;
+using WalkingTec.Mvvm.Core.Extensions;
 using WalkingTec.Mvvm.Mvc.Admin.ViewModels.FrameworkTenantVMs;
+using System.Linq;
 
-namespace WalkingTec.Mvvm.Admin.Api
+namespace WalkingTec.Mvvm.Mvc.Admin.Controllers
 {
-    [AuthorizeJwtWithCookie]
+    [Area("_Admin")]
     [ActionDescription("MenuKey.FrameworkTenant")]
-    [ApiController]
-    [Route("api/_[controller]")]
     [FixConnection(CsName = "default")]
-    public class FrameworkTenantController : BaseApiController
+    public partial class FrameworkTenantController : BaseController
     {
+        #region Search
         [ActionDescription("Sys.Search")]
-        [HttpPost("[action]")]
+        public ActionResult Index()
+        {
+            if(CanUseTenant() == false)
+            {
+                return Content(Localizer["_Admin.TenantNotAllowed"]);
+            }
+            var vm = Wtm.CreateVM<FrameworkTenantListVM>();
+            return PartialView(vm);
+        }
+
+        [ActionDescription("Sys.Search")]
+        [HttpPost]
         public IActionResult Search(FrameworkTenantSearcher searcher)
         {
             if (CanUseTenant() == false)
             {
-                ModelState.Clear();
-                ModelState.AddModelError(" TenantNotAllowed", Localizer["_Admin.TenantNotAllowed"]);
-                return BadRequest(ModelState.GetErrorJson());
+                return Content(Localizer["_Admin.TenantNotAllowed"]);
             }
+            var vm = Wtm.CreateVM<FrameworkTenantListVM>(passInit: true);
             if (ModelState.IsValid)
             {
-                var vm = Wtm.CreateVM<FrameworkTenantListVM>(passInit: true);
                 vm.Searcher = searcher;
-                return Content(vm.GetJson());
+                return Content(vm.GetJson(false));
             }
             else
             {
-                return BadRequest(ModelState.GetErrorJson());
+                return Content(vm.GetError());
             }
         }
 
-        [ActionDescription("Sys.Get")]
-        [HttpGet("{id}")]
-        public FrameworkTenantVM Get(Guid id)
-        {
-            var vm = Wtm.CreateVM<FrameworkTenantVM>(id);
-            return vm;
-        }
+        #endregion
 
+        #region Create
         [ActionDescription("Sys.Create")]
-        [HttpPost("[action]")]
-        public IActionResult Add(FrameworkTenantVM vm)
+        public ActionResult Create()
         {
             if (CanUseTenant() == false)
             {
-                ModelState.Clear();
-                ModelState.AddModelError(" TenantNotAllowed", Localizer["_Admin.TenantNotAllowed"]);
-                return BadRequest(ModelState.GetErrorJson());
+                return Content(Localizer["_Admin.TenantNotAllowed"]);
+            }
+            var vm = Wtm.CreateVM<FrameworkTenantVM>();
+            return PartialView(vm);
+        }
+
+        [HttpPost]
+        [ActionDescription("Sys.Create")]
+        public ActionResult Create(FrameworkTenantVM vm)
+        {
+            if (CanUseTenant() == false)
+            {
+                return Content(Localizer["_Admin.TenantNotAllowed"]);
             }
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorJson());
+                return PartialView(vm);
             }
             else
             {
                 vm.DoAdd();
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest(ModelState.GetErrorJson());
+                    vm.DoReInit();
+                    return PartialView(vm);
                 }
                 else
                 {
-                    return Ok(vm.Entity);
+                    return FFResult().CloseDialog().RefreshGrid();
                 }
             }
+        }
+        #endregion
 
+        #region Edit
+        [ActionDescription("Sys.Edit")]
+        public ActionResult Edit(string id)
+        {
+            if (CanUseTenant() == false)
+            {
+                return Content(Localizer["_Admin.TenantNotAllowed"]);
+            }
+            var vm = Wtm.CreateVM<FrameworkTenantVM>(id);
+            return PartialView(vm);
         }
 
         [ActionDescription("Sys.Edit")]
-        [HttpPut("[action]")]
-        public IActionResult Edit(FrameworkTenantVM vm)
+        [HttpPost]
+        [ValidateFormItemOnly]
+        public ActionResult Edit(FrameworkTenantVM vm)
         {
             if (CanUseTenant() == false)
             {
-                ModelState.Clear();
-                ModelState.AddModelError(" TenantNotAllowed", Localizer["_Admin.TenantNotAllowed"]);
-                return BadRequest(ModelState.GetErrorJson());
+                return Content(Localizer["_Admin.TenantNotAllowed"]);
             }
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorJson());
+                return PartialView(vm);
             }
             else
             {
-                vm.DoEdit(false);
+                vm.DoEdit();
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest(ModelState.GetErrorJson());
+                    vm.DoReInit();
+                    return PartialView(vm);
                 }
                 else
                 {
-                    return Ok(vm.Entity);
+                    return FFResult().CloseDialog().RefreshGridRow(vm.Entity.ID);
                 }
             }
         }
+        #endregion
 
-        [HttpPost("BatchDelete")]
+        #region Delete
         [ActionDescription("Sys.Delete")]
-        public IActionResult BatchDelete(string[] ids)
+        public ActionResult Delete(string id)
         {
             if (CanUseTenant() == false)
             {
-                ModelState.Clear();
-                ModelState.AddModelError(" TenantNotAllowed", Localizer["_Admin.TenantNotAllowed"]);
-                return BadRequest(ModelState.GetErrorJson());
+                return Content(Localizer["_Admin.TenantNotAllowed"]);
             }
-            var vm = Wtm.CreateVM<FrameworkTenantBatchVM>();
-            if (ids != null && ids.Count() > 0)
+            var vm = Wtm.CreateVM<FrameworkTenantVM>(id);
+            return PartialView(vm);
+        }
+
+        [ActionDescription("Sys.Delete")]
+        [HttpPost]
+        public ActionResult Delete(string id, IFormCollection nouse)
+        {
+            if (CanUseTenant() == false)
             {
-                vm.Ids = ids;
+                return Content(Localizer["_Admin.TenantNotAllowed"]);
+            }
+            var vm = Wtm.CreateVM<FrameworkTenantVM>(id);
+            vm.DoDelete();
+            if (!ModelState.IsValid)
+            {
+                return PartialView(vm);
             }
             else
             {
-                return Ok();
+                return FFResult().CloseDialog().RefreshGrid();
+            }
+        }
+        #endregion
+
+        #region Details
+        [ActionDescription("Sys.Details")]
+        public ActionResult Details(string id)
+        {
+            if (CanUseTenant() == false)
+            {
+                return Content(Localizer["_Admin.TenantNotAllowed"]);
+            }
+            var vm = Wtm.CreateVM<FrameworkTenantVM>(id);
+            return PartialView(vm);
+        }
+        #endregion
+
+        #region BatchEdit
+        [HttpPost]
+        [ActionDescription("Sys.BatchEdit")]
+        public ActionResult BatchEdit(string[] IDs)
+        {
+            if (CanUseTenant() == false)
+            {
+                return Content(Localizer["_Admin.TenantNotAllowed"]);
+            }
+            var vm = Wtm.CreateVM<FrameworkTenantBatchVM>(Ids: IDs);
+            return PartialView(vm);
+        }
+
+        [HttpPost]
+        [ActionDescription("Sys.BatchEdit")]
+        public ActionResult DoBatchEdit(FrameworkTenantBatchVM vm, IFormCollection nouse)
+        {
+            if (CanUseTenant() == false)
+            {
+                return Content(Localizer["_Admin.TenantNotAllowed"]);
+            }
+            if (!ModelState.IsValid || !vm.DoBatchEdit())
+            {
+                return PartialView("BatchEdit",vm);
+            }
+            else
+            {
+                return FFResult().CloseDialog().RefreshGrid().Alert(Localizer["Sys.BatchEditSuccess", vm.Ids.Length]);
+            }
+        }
+        #endregion
+
+        #region BatchDelete
+        [HttpPost]
+        [ActionDescription("Sys.BatchDelete")]
+        public ActionResult BatchDelete(string[] IDs)
+        {
+            if (CanUseTenant() == false)
+            {
+                return Content(Localizer["_Admin.TenantNotAllowed"]);
+            }
+            var vm = Wtm.CreateVM<FrameworkTenantBatchVM>(Ids: IDs);
+            return PartialView(vm);
+        }
+
+        [HttpPost]
+        [ActionDescription("Sys.BatchDelete")]
+        public ActionResult DoBatchDelete(FrameworkTenantBatchVM vm, IFormCollection nouse)
+        {
+            if (CanUseTenant() == false)
+            {
+                return Content(Localizer["_Admin.TenantNotAllowed"]);
             }
             if (!ModelState.IsValid || !vm.DoBatchDelete())
             {
-                return BadRequest(ModelState.GetErrorJson());
+                return PartialView("BatchDelete",vm);
             }
             else
             {
                 Cache.Delete(nameof(GlobalData.AllTenant));
-                return Ok(ids.Count());
+                return FFResult().CloseDialog().RefreshGrid().Alert(Localizer["Sys.BatchDeleteSuccess", vm.Ids.Length]);
             }
         }
+        #endregion
 
-        [ActionDescription("Sys.Export")]
-        [HttpPost("[action]")]
-        public IActionResult ExportExcel(FrameworkTenantSearcher searcher)
+        #region Import
+		[ActionDescription("Sys.Import")]
+        public ActionResult Import()
         {
             if (CanUseTenant() == false)
             {
-                ModelState.Clear();
-                ModelState.AddModelError(" TenantNotAllowed", Localizer["_Admin.TenantNotAllowed"]);
-                return BadRequest(ModelState.GetErrorJson());
-            }
-            var vm = Wtm.CreateVM<FrameworkTenantListVM>();
-            vm.Searcher = searcher;
-            vm.SearcherMode = ListVMSearchModeEnum.Export;
-            return vm.GetExportData();
-        }
-
-        [ActionDescription("Sys.ExportByIds")]
-        [HttpPost("[action]")]
-        public IActionResult ExportExcelByIds(string[] ids)
-        {
-            if (CanUseTenant() == false)
-            {
-                ModelState.Clear();
-                ModelState.AddModelError(" TenantNotAllowed", Localizer["_Admin.TenantNotAllowed"]);
-                return BadRequest(ModelState.GetErrorJson());
-            }
-            var vm = Wtm.CreateVM<FrameworkTenantListVM>();
-            if (ids != null && ids.Count() > 0)
-            {
-                vm.Ids = new List<string>(ids);
-                vm.SearcherMode = ListVMSearchModeEnum.CheckExport;
-            }
-            return vm.GetExportData();
-        }
-
-        [ActionDescription("Sys.DownloadTemplate")]
-        [HttpGet("[action]")]
-        public IActionResult GetExcelTemplate()
-        {
-            if (CanUseTenant() == false)
-            {
-                ModelState.Clear();
-                ModelState.AddModelError(" TenantNotAllowed", Localizer["_Admin.TenantNotAllowed"]);
-                return BadRequest(ModelState.GetErrorJson());
+                return Content(Localizer["_Admin.TenantNotAllowed"]);
             }
             var vm = Wtm.CreateVM<FrameworkTenantImportVM>();
-            var qs = new Dictionary<string, string>();
-            foreach (var item in Request.Query.Keys)
-            {
-                qs.Add(item, Request.Query[item]);
-            }
-            vm.SetParms(qs);
-            var data = vm.GenerateTemplate(out string fileName);
-            return File(data, "application/vnd.ms-excel", fileName);
+            return PartialView(vm);
         }
 
+        [HttpPost]
         [ActionDescription("Sys.Import")]
-        [HttpPost("[action]")]
-        public ActionResult Import(FrameworkTenantImportVM vm)
+        public ActionResult Import(FrameworkTenantImportVM vm, IFormCollection nouse)
         {
-
             if (CanUseTenant() == false)
             {
-                ModelState.Clear();
-                ModelState.AddModelError(" TenantNotAllowed", Localizer["_Admin.TenantNotAllowed"]);
-                return BadRequest(ModelState.GetErrorJson());
+                return Content(Localizer["_Admin.TenantNotAllowed"]);
             }
             if (vm.ErrorListVM.EntityList.Count > 0 || !vm.BatchSaveData())
             {
-                return BadRequest(vm.GetErrorJson());
+                return PartialView(vm);
             }
             else
             {
-                return Ok(vm.EntityList.Count);
+                return FFResult().CloseDialog().RefreshGrid().Alert(Localizer["Sys.ImportSuccess", vm.EntityList.Count.ToString()]);
             }
         }
+        #endregion
 
-        [HttpGet("GetFrameworkTenants")]
-        [ActionDescription("GetTenants")]
-        [AllRights]
-        public IActionResult GetFrameworkTenants(string parent)
+        [ActionDescription("Sys.Export")]
+        [HttpPost]
+        public IActionResult ExportExcel(FrameworkTenantListVM vm)
         {
-            if (parent == "")
+            if (CanUseTenant() == false)
             {
-                parent = null;
+                return Content(Localizer["_Admin.TenantNotAllowed"]);
             }
-            return Ok(Wtm.GlobaInfo.AllTenant.AsQueryable().Where(x => x.TenantCode == parent).GetSelectListItems(Wtm, x => x.TName, x => x.TCode));
+            return vm.GetExportData();
         }
-
-
 
         private bool CanUseTenant()
         {
-            if (Wtm.LoginUserInfo != null && (Wtm.LoginUserInfo.CurrentTenant == null || Wtm.GlobaInfo.AllTenant.Any(x => x.TCode == Wtm.LoginUserInfo.CurrentTenant && x.Enabled == true && x.EnableSub == true)))
+            if(Wtm.LoginUserInfo != null && (Wtm.LoginUserInfo.CurrentTenant == null || Wtm.GlobaInfo.AllTenant.Any(x=>x.TCode == Wtm.LoginUserInfo.CurrentTenant && x.Enabled==true && x.EnableSub == true)))
             {
                 return true;
             }
             return false;
         }
-
-
     }
 }

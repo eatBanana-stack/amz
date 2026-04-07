@@ -1,211 +1,216 @@
 // WTM默认页面 Wtm buidin page
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using WalkingTec.Mvvm.Core;
 using WalkingTec.Mvvm.Core.Extensions;
-using WalkingTec.Mvvm.Core.Support.Json;
-using WalkingTec.Mvvm.Mvc;
 using WalkingTec.Mvvm.Mvc.Admin.ViewModels.FrameworkMenuVMs;
 
-namespace WalkingTec.Mvvm.Admin.Api
+namespace WalkingTec.Mvvm.Mvc.Admin.Controllers
 {
-    [AuthorizeJwtWithCookie]
+    [Area("_Admin")]
     [ActionDescription("MenuKey.MenuMangement")]
-    [ApiController]
-    [Route("api/_[controller]")]
     [MainTenantOnly]
-    public class FrameworkMenuController : BaseApiController
+    public class FrameworkMenuController : BaseController
     {
         [ActionDescription("Sys.Search")]
-        [HttpPost("[action]")]
-        public ActionResult Search(BaseSearcher searcher)
+        public ActionResult Index()
         {
+            var vm = Wtm.CreateVM<FrameworkMenuListVM>();
+            return PartialView(vm);
+        }
+
+        [ActionDescription("Sys.Search")]
+        [HttpPost]
+        public string Search(FrameworkMenuSearcher searcher)
+        {
+            var vm = Wtm.CreateVM<FrameworkMenuListVM>(passInit: true);
             if (ModelState.IsValid)
             {
-                var vm = Wtm.CreateVM<FrameworkMenuListVM2>(passInit: true);
                 vm.Searcher = searcher;
-                return Content(vm.GetJson());
+                return vm.GetJson(false);
             }
             else
             {
-                return BadRequest(ModelState.GetErrorJson());
+                return vm.GetError();
             }
         }
 
-        [ActionDescription("Sys.Get")]
-        [HttpGet("{id}")]
-        public FrameworkMenuVM2 Get(Guid id)
+        [ActionDescription("Sys.Create")]
+        public ActionResult Create(Guid? id)
         {
-            var vm = Wtm.CreateVM<FrameworkMenuVM2>(id);
-            return vm;
+            var vm = Wtm.CreateVM<FrameworkMenuVM>();
+            if (id != null)
+            {
+                vm.Entity.ParentId = id;
+            }
+            vm.Entity.IsInside = true;
+            vm.Entity.IsPublic = false;
+            vm.Entity.FolderOnly = false;
+            vm.Entity.ShowOnMenu = true;
+            return PartialView(vm);
         }
 
+        [HttpPost]
+        [Public]
         [ActionDescription("Sys.Create")]
-        [HttpPost("[action]")]
-        public IActionResult Add(FrameworkMenuVM2 vm)
+        public ActionResult Create(FrameworkMenuVM vm)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorJson());
+                return PartialView(vm);
             }
             else
             {
                 vm.DoAdd();
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest(ModelState.GetErrorJson());
+                    vm.DoReInit();
+                    return PartialView(vm);
                 }
                 else
                 {
-                    return Ok(vm.Entity);
+                    return FFResult().CloseDialog().RefreshGrid();
                 }
             }
-
         }
 
         [ActionDescription("Sys.Edit")]
-        [HttpPut("[action]")]
-        public IActionResult Edit(FrameworkMenuVM2 vm)
+        public ActionResult Edit(Guid id)
+        {
+            var vm = Wtm.CreateVM<FrameworkMenuVM>(id);
+            vm.IconSelectItems = !string.IsNullOrEmpty(vm.IconFont) && IconFontsHelper
+                    .IconFontDicItems
+                    .ContainsKey(vm.IconFont)
+                    ? IconFontsHelper
+                        .IconFontDicItems[vm.IconFont]
+                        .Select(x => new ComboSelectListItem()
+                        {
+                            Text = x.Text,
+                            Value = x.Value,
+                            Icon = x.Icon
+                        }).ToList()
+                    : new List<ComboSelectListItem>();
+
+            return PartialView(vm);
+        }
+
+        [ActionDescription("Sys.Edit")]
+        [HttpPost]
+        public ActionResult Edit(FrameworkMenuVM vm)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorJson());
+                vm.IconSelectItems = !string.IsNullOrEmpty(vm.IconFont) && IconFontsHelper
+                        .IconFontDicItems
+                        .ContainsKey(vm.IconFont)
+                        ? IconFontsHelper
+                            .IconFontDicItems[vm.IconFont]
+                            .Select(x => new ComboSelectListItem()
+                            {
+                                Text = x.Text,
+                                Value = x.Value,
+                                Icon = x.Icon
+                            }).ToList()
+                        : new List<ComboSelectListItem>();
+                return PartialView(vm);
             }
             else
             {
-                vm.DoEdit(true);
+                vm.DoEdit();
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest(ModelState.GetErrorJson());
+                    vm.DoReInit();
+                    return PartialView(vm);
                 }
                 else
                 {
-                    return Ok(vm.Entity);
+                    return FFResult().CloseDialog().RefreshGrid();
                 }
             }
         }
 
-        [HttpPost("BatchDelete")]
         [ActionDescription("Sys.Delete")]
-        public IActionResult BatchDelete(string[] ids)
+        public ActionResult Delete(Guid id)
         {
-            var vm = Wtm.CreateVM<FrameworkMenuBatchVM>();
-            if (ids != null && ids.Count() > 0)
+            var vm = Wtm.CreateVM<FrameworkMenuVM>(id);
+            return PartialView(vm);
+        }
+
+        [ActionDescription("Sys.Delete")]
+        [HttpPost]
+        public ActionResult Delete(Guid id, IFormCollection noUser)
+        {
+            var vm = Wtm.CreateVM<FrameworkMenuVM>(id);
+            vm.DoDelete();
+            if (!ModelState.IsValid)
             {
-                vm.Ids = ids;
+                return PartialView(vm);
             }
             else
             {
-                return Ok();
-            }
-            if (!ModelState.IsValid || !vm.DoBatchDelete())
-            {
-                return BadRequest(ModelState.GetErrorJson());
-            }
-            else
-            {
-                return Ok(ids.Count());
+                return FFResult().CloseDialog().RefreshGrid();
             }
         }
 
-        [ActionDescription("Sys.Export")]
-        [HttpPost("[action]")]
-        public IActionResult ExportExcel(BaseSearcher searcher)
+        [ActionDescription("Sys.Details")]
+        public PartialViewResult Details(Guid id)
         {
-            var vm = Wtm.CreateVM<FrameworkMenuListVM2>();
-            vm.Searcher = searcher;
-            vm.SearcherMode = ListVMSearchModeEnum.Export;
-            return vm.GetExportData();
-        }
-
-        [ActionDescription("Sys.ExportByIds")]
-        [HttpPost("[action]")]
-        public IActionResult ExportExcelByIds(string[] ids)
-        {
-            var vm = Wtm.CreateVM<FrameworkMenuListVM2>();
-            if (ids != null && ids.Count() > 0)
-            {
-                vm.Ids = new List<string>(ids);
-                vm.SearcherMode = ListVMSearchModeEnum.CheckExport;
-            }
-            return vm.GetExportData();
+            var v = Wtm.CreateVM<FrameworkMenuVM>(id);
+            return PartialView("Details", v);
         }
 
         [ActionDescription("_Admin.UnsetPages")]
-        [HttpGet("[action]")]
-        public string UnsetPages()
+        public ActionResult UnsetPages()
         {
             var vm = Wtm.CreateVM<FrameworkActionListVM>();
-            return vm.GetJson(enumToString: false);
+            return PartialView(vm);
         }
 
         [ActionDescription("_Admin.RefreshMenu")]
-        [HttpGet("[action]")]
         public ActionResult RefreshMenu()
         {
             Cache.Delete(nameof(GlobalData.AllMenus));
-            return Ok(Localizer["Sys.OprationSuccess"].Value);
+            return FFResult().Alert(Localizer["Sys.OprationSuccess"]);
         }
 
         [ActionDescription("GetActionsByModelId")]
-        [HttpGet("GetActionsByModel")]
         [AllRights]
-        public ActionResult GetActionsByModel(string ModelName)
+        public ActionResult GetActionsByModelId(string Id)
         {
-            var m = GlobaInfo.AllModule.Where(x => x.IsApi == true && x.FullName.ToLower() == ModelName.ToLower()).SelectMany(x => x.Actions).ToList();
-            List<SimpleAction> toremove = new List<SimpleAction>();
-            foreach (var item in m)
+            if (string.IsNullOrEmpty(Id))
             {
-                if (item.IgnorePrivillege == true || item.Module.IgnorePrivillege == true)
-                {
-                    toremove.Add(item);
-                }
+                return JsonMore(new List<ComboSelectListItem>());
             }
-            toremove.ForEach(x => m.Remove(x));
-            var actions = m.ToListItems(y => y.ActionName, y => y.MethodName);
-            actions.ForEach(x => x.Selected = true);
-            return Ok(actions);
-        }
+            var modules = Wtm.GlobaInfo.AllModule;
+            var m =Utils.ResetModule(modules);
 
-        [ActionDescription("GetFolders")]
-        [HttpGet("GetFolders")]
-        [AllRights]
-        public ActionResult GetFolders()
-        {
-            var AllParents = DC.Set<FrameworkMenu>().Where(x => x.FolderOnly == true).OrderBy(x => x.DisplayOrder).GetSelectListItems(Wtm, x => x.PageName);
-            foreach (var p in AllParents)
+            List<ComboSelectListItem> AllActions = new List<ComboSelectListItem>();
+            var action = m.Where(x => x.FullName == Id)?.FirstOrDefault().Actions;
+            if (action != null)
             {
-                if (p.Text.StartsWith("MenuKey."))
-                {
-                    p.Text = Localizer[p.Text];
-                }
+                var mList = action?.Where(x => x.MethodName != "Index" && x.IgnorePrivillege == false)?.ToList();
+                AllActions = mList.ToListItems(y => y.ActionName, y => y.Url);
+                AllActions.ForEach(x => x.Selected = true);
             }
 
-            return Ok(AllParents);
+            return JsonMore(AllActions);
         }
 
+        [HttpGet]
+        [ResponseCache(Duration = 3600)]
         [AllRights]
-        [HttpGet("GetIcons")]
-        public List<ComboSelectListItem> GetIcons()
+        public IActionResult GetIconFontItems(string id)
         {
-            return IconFontsHelper.IconFontItems;
-        }
-
-        [AllRights]
-        [HttpGet("GetIconItems")]
-        public List<MenuItem> GetIconItems(string key)
-        {
-   		if (string.IsNullOrEmpty(key))
-            {
-                return new List<MenuItem>();
-            }
+            if (!string.IsNullOrEmpty(id) && IconFontsHelper.IconFontDicItems.ContainsKey(id))
+                return JsonMore(IconFontsHelper.IconFontDicItems[id]);
             else
-            {
-                return IconFontsHelper.IconFontDicItems[key];
-            }
+                return JsonMore(null);
         }
 
     }

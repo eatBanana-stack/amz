@@ -21,6 +21,8 @@ namespace AmazonTools.DataAccess
         public DbSet<AmazonSiteInfo> AmazonSiteInfos { get; set; }
         public DbSet<MailManage> MailManages { get; set; }
         public DbSet<CreditCardManage> CreditCardManages { get; set; }
+        public DbSet<DicDef> DicDefs { get; set; }
+        public DbSet<DicField> DicFields { get; set; }
         public DbSet<FrameworkUserRole> FrameworkUserRoles { get; set; }
         public DbSet<FrameworkUserGroup> FrameworkUserGroups { get; set; }
 
@@ -67,15 +69,94 @@ namespace AmazonTools.DataAccess
                     UserCode = user.ITCode,
                     RoleCode = "001"
                 };
-                var adminmenus = Set<FrameworkMenu>().Where(x => x.Url != null && x.Url.StartsWith("/api") == false).ToList();
-                foreach (var item in adminmenus)
-                {
-                    item.Url = "/_admin" + item.Url;
-                }
                 Set<FrameworkUser>().Add(user);
                 Set<FrameworkUserRole>().Add(userrole);
                 await SaveChangesAsync();
                                 
+                new Task(() =>{
+                var dic0 = new DicDef
+                {
+                    DicName = "站点",
+                    DicField_DicDef = new System.Collections.Generic.List<DicField> {
+                        new DicField {
+                            DicFieldName="日本",
+                            DicFieldDes="日本"
+                        },
+                        new DicField {
+                            DicFieldName="北美",
+                            DicFieldDes="北美"
+                        },
+                        new DicField {
+                            DicFieldName="澳洲",
+                            DicFieldDes="澳洲"
+                        },
+                        new DicField {
+                            DicFieldName="欧洲",
+                            DicFieldDes="欧洲"
+                        },
+                    }
+                };
+                Set<DicDef>().Add(dic0);
+                var dic1 = new DicDef
+                {
+                    DicName = "代理",
+                    DicField_DicDef = new System.Collections.Generic.List<DicField> {
+                        new DicField {
+                            DicFieldName="同创",
+                            DicFieldDes="同创"
+                        },
+                        new DicField {
+                            DicFieldName="锦囊",
+                            DicFieldDes="锦囊"
+                        },
+                        new DicField {
+                            DicFieldName="许航",
+                            DicFieldDes="许航"
+                        },
+                    }
+                };
+                Set<DicDef>().Add(dic1);
+                var dic2 = new DicDef
+                {
+                    DicName = "站点状态",
+                    DicField_DicDef = new System.Collections.Generic.List<DicField> {
+                        new DicField {
+                            DicFieldName="售后",
+                            DicFieldDes="售后"
+                        },
+                        new DicField {
+                            DicFieldName="未注册",
+                            DicFieldDes="未注册"
+                        },
+                        new DicField {
+                            DicFieldName="未激活",
+                            DicFieldDes="未激活"
+                        },
+                        new DicField {
+                            DicFieldName="激活待完成",
+                            DicFieldDes="激活待完成"
+                        },
+                        new DicField {
+                            DicFieldName="已完成",
+                            DicFieldDes="已完成"
+                        },
+                        new DicField {
+                            DicFieldName="有执照拒绝配合",
+                            DicFieldDes="有执照拒绝配合"
+                        },
+                        new DicField {
+                            DicFieldName="机会被占用",
+                            DicFieldDes="机会被占用"
+                        },
+                        new DicField {
+                            DicFieldName="待人脸",
+                            DicFieldDes="待人脸"
+                        },
+                    }
+                };
+                Set<DicDef>().Add(dic2);
+                SaveChanges();
+             }).Start();
                 try{
                     Dictionary<string, List<object>> data = new Dictionary<string, List<object>>();
                      new Task(() =>{
@@ -275,8 +356,20 @@ namespace AmazonTools.DataAccess
                             {
                                 try
                                 {
+                                   if (fktype == typeof(DicField))
+                                    {
+                                        var display = fkpro.GetCustomAttributes(typeof(RefDicNameAttribute), true).FirstOrDefault() as RefDicNameAttribute;
+                                        if(display != null)
+                                        {
+                                            var dicfields = Set<DicDef>().Local.Where(x => x.DicName == display.Name).SelectMany(x => x.DicField_DicDef).Select(x=>x.ID).ToList();
+                                            newobj.SetPropertyValue(pro.Key, dicfields[r.Next(0, dicfields.Count)]);
+                                        }
+                                    }
+                                    else
+                                    {
                                         SetTestData(fktype, data, count);
                                         newobj.SetPropertyValue(pro.Key, (data[fktype.FullName][r.Next(0, data[fktype.FullName].Count)] as TopBasePoco).GetID());
+                                    }
                                 
                                 }
                                 catch { }
@@ -333,6 +426,36 @@ namespace AmazonTools.DataAccess
                 catch { }
             }
         }
+                protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            var allTypes = Utils.GetAllModels();
+
+            foreach (var item in allTypes)
+            {
+                if (typeof(TopBasePoco).IsAssignableFrom(item) && item.CustomAttributes.Any(x=>x.AttributeType == typeof(MiddleTableAttribute))==false)
+                {
+                    var pros = item.GetProperties().Where(x => x.PropertyType == typeof(DicField)).ToList();
+                    foreach (var filepro in pros)
+                    {
+                        var builder = typeof(ModelBuilder).GetMethod("Entity", Type.EmptyTypes).MakeGenericMethod(item).Invoke(modelBuilder, null) as EntityTypeBuilder;
+                        try
+                        {
+                            builder.HasOne(filepro.Name).WithMany(item.Name + "_" + filepro.Name).OnDelete(DeleteBehavior.Restrict);
+                        }
+                        catch
+                        {
+                            try
+                            {
+                                builder.HasOne(filepro.Name).WithMany(item.Name + "_" + filepro.Name.Substring(0, 1).ToLower() + filepro.Name.Substring(1)).OnDelete(DeleteBehavior.Restrict);
+                            }
+                            catch { }
+                        }
+                    }
+                }
+            }
+        }        
             }
 
     /// <summary>

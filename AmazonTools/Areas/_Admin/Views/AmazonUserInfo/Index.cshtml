@@ -1,0 +1,42 @@
+﻿
+@model AmazonTools.ViewModel._Admin.AmazonUserInfoVMs.AmazonUserInfoListVM
+@using WalkingTec.Mvvm.Core.Extensions;
+@inject IStringLocalizer<Program> Localizer;
+
+<wt:searchpanel vm="@Model" reset-btn="true" chart-prefix="Searcher"  grid-id="Gcf9d93d891764bbe891d70e4a66a4327" id="gridGcf9d93d891764bbe891d70e4a66a4327">
+  <wt:row  items-per-row="ItemsPerRowEnum.Three">
+    <wt:textbox field="Searcher.FaUserNameCn"/>
+    <wt:textbox field="Searcher.FaUserNameUs"/>
+    <wt:textbox field="Searcher.FaIdCard"/>
+  </wt:row>
+  <wt:row  items-per-row="ItemsPerRowEnum.Three">
+    <wt:textbox field="Searcher.FaBornTime"/>
+    <wt:textbox field="Searcher.FaEndTime"/>
+    <wt:textbox field="Searcher.LicenseCn"/>
+  </wt:row>
+  <wt:row  items-per-row="ItemsPerRowEnum.Three">
+    <wt:textbox field="Searcher.LicenseUs"/>
+    <wt:textbox field="Searcher.LicenseCode"/>
+    <wt:textbox field="Searcher.License"/>
+  </wt:row>
+  <wt:row  items-per-row="ItemsPerRowEnum.Three">
+    <wt:textbox field="Searcher.MailingAddress"/>
+    <wt:textbox field="Searcher.MailingZipCode"/>
+    <wt:combobox field="Searcher.BelongingNameId"  item-url="/_Admin/AmazonUserInfo/GetDicFields代理" label-text="@Localizer["Page.代理"].Value" empty-text="@Localizer["Sys.All"]" id="g1d6e9555993d486498a8bf3c3c0e86e5"/>
+  </wt:row>
+  <wt:row  items-per-row="ItemsPerRowEnum.Three">
+    <wt:textbox field="Searcher.LicenseAddress"/>
+    <wt:textbox field="Searcher.LicenseZipCode"/>
+    <wt:datetime field="Searcher.CreateTime" range="true"/>
+  </wt:row>
+  <wt:row  items-per-row="ItemsPerRowEnum.Three">
+    <wt:datetime field="Searcher.UpdateTime" range="true"/>
+    <wt:textbox field="Searcher.CreateBy"/>
+    <wt:textbox field="Searcher.UpdateBy"/>
+  </wt:row>
+
+</wt:searchpanel>
+
+<wt:grid vm="@Model" url="/_Admin/AmazonUserInfo/SearchAmazonUserInfo"  id="Gcf9d93d891764bbe891d70e4a66a4327" search-panel-id="gridGcf9d93d891764bbe891d70e4a66a4327"/>
+
+

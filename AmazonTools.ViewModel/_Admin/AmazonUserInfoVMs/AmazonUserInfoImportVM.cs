@@ -37,7 +37,7 @@ namespace AmazonTools.ViewModel._Admin.AmazonUserInfoVMs
         [Display(Name = "_Model._AmazonUserInfo._MailingZipCode")]
         public ExcelPropety MailingZipCode_Excel = ExcelPropety.CreateProperty<AmazonUserInfo>(x => x.MailingZipCode);
         [Display(Name = "_Model._AmazonUserInfo._BelongingName")]
-        public ExcelPropety BelongingName_Excel = ExcelPropety.CreateProperty<AmazonUserInfo>(x => x.BelongingName);
+        public ExcelPropety BelongingName_Excel = ExcelPropety.CreateProperty<AmazonUserInfo>(x => x.BelongingNameId);
         [Display(Name = "_Model._AmazonUserInfo._LicenseAddress")]
         public ExcelPropety LicenseAddress_Excel = ExcelPropety.CreateProperty<AmazonUserInfo>(x => x.LicenseAddress);
         [Display(Name = "_Model._AmazonUserInfo._LicenseZipCode")]
@@ -54,6 +54,9 @@ namespace AmazonTools.ViewModel._Admin.AmazonUserInfoVMs
 	    protected override void InitVM()
         {
             
+            BelongingName_Excel.DataType = ColumnDataType.ComboBox;
+            BelongingName_Excel.ListItems = DC.Set<DicField>().Where(x => x.DicDef.DicName == "代理").OrderBy(x => x.Order).GetSelectListItems(Wtm, y => y.DicFieldDes.ToString(), SortByName: false);
+
         }
 
     }

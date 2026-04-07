@@ -1,0 +1,36 @@
+﻿
+@model AmazonTools.ViewModel._Admin.AmazonSiteInfoVMs.AmazonSiteInfoListVM
+@using WalkingTec.Mvvm.Core.Extensions;
+@inject IStringLocalizer<Program> Localizer;
+
+<wt:searchpanel vm="@Model" reset-btn="true" chart-prefix="Searcher"  grid-id="Gcf06903e4674401aa47263fa5e86d604" id="gridGcf06903e4674401aa47263fa5e86d604">
+  <wt:row  items-per-row="ItemsPerRowEnum.Three">
+    <wt:combobox field="Searcher.SiteNameId"  item-url="/_Admin/AmazonSiteInfo/GetDicFields站点" label-text="@Localizer["Page.站点"].Value" empty-text="@Localizer["Sys.All"]" id="g3e11459a5a614204af178fd587f245f1"/>
+    <wt:textbox field="Searcher.Mail"/>
+    <wt:textbox field="Searcher.MailPassWord"/>
+  </wt:row>
+  <wt:row  items-per-row="ItemsPerRowEnum.Three">
+    <wt:textbox field="Searcher.AccountPassWord"/>
+    <wt:textbox field="Searcher.CreditCard"/>
+    <wt:textbox field="Searcher.SecurityCode"/>
+  </wt:row>
+  <wt:row  items-per-row="ItemsPerRowEnum.Three">
+    <wt:textbox field="Searcher.ValidityPeriod"/>
+    <wt:textbox field="Searcher.Phone"/>
+    <wt:combobox field="Searcher.AmazonStateId"  item-url="/_Admin/AmazonSiteInfo/GetDicFields站点状态" label-text="@Localizer["Page.状态"].Value" empty-text="@Localizer["Sys.All"]" id="g247bb55744eb497cb48a709a6e23fa08"/>
+  </wt:row>
+  <wt:row  items-per-row="ItemsPerRowEnum.Three">
+    <wt:combobox field="Searcher.AmazonUserId"  item-url="/_Admin/AmazonSiteInfo/GetAmazonUserInfos" label-text="@Localizer["Page.客户"].Value" empty-text="@Localizer["Sys.All"]" id="g40ddaac9004544fe95857180dc95626e"/>
+    <wt:datetime field="Searcher.CreateTime" range="true"/>
+    <wt:datetime field="Searcher.UpdateTime" range="true"/>
+  </wt:row>
+@*   <wt:row  items-per-row="ItemsPerRowEnum.Three">
+    <wt:textbox field="Searcher.CreateBy"/>
+    <wt:textbox field="Searcher.UpdateBy"/>
+  </wt:row> *@
+
+</wt:searchpanel>
+
+<wt:grid vm="@Model" url="/_Admin/AmazonSiteInfo/SearchAmazonSiteInfo"  id="Gcf06903e4674401aa47263fa5e86d604" search-panel-id="gridGcf06903e4674401aa47263fa5e86d604"/>
+
+

@@ -1,20 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <CopyRefAssembliesToPublishDirectory>true</CopyRefAssembliesToPublishDirectory>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <Nullable>disable</Nullable>  
-  </PropertyGroup>
+  
+    <CopyRefAssembliesToPublishDirectory>true</CopyRefAssembliesToPublishDirectory>
+</PropertyGroup>
+
 
 
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.3" />
+    <PackageReference Include="Elsa.Designer.Components.Web" Version="2.14.1" />
+    <PackageReference Include="WalkingTec.Mvvm.TagHelpers.LayUI" Version="8.1.12" />
     <PackageReference Include="WalkingTec.Mvvm.Mvc" Version="8.1.12" />
-   <ProjectReference Include="..\AmazonTools.Client\AmazonTools.Client.csproj" />
-   <ProjectReference Include="..\AmazonTools.Shared\AmazonTools.Shared.csproj" />
-    <ProjectReference Include="..\AmazonTools.DataAccess\AmazonTools.DataAccess.csproj" />
 </ItemGroup>
+
+  <ItemGroup>
+   <ProjectReference Include="..\AmazonTools.Model\AmazonTools.Model.csproj" />
+    <ProjectReference Include="..\AmazonTools.DataAccess\AmazonTools.DataAccess.csproj" />
+    <ProjectReference Include="..\AmazonTools.ViewModel\AmazonTools.ViewModel.csproj" />
+ </ItemGroup>
 </Project>
+
 

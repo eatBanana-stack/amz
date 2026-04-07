@@ -35,6 +35,9 @@ namespace WalkingTec.Mvvm.Mvc.Admin.ViewModels.FrameworkMenuVMs
             return header;
         }
 
+        /// <summary>
+        /// 查询结果
+        /// </summary>
         public override IOrderedQueryable<FrameworkAction_ListView> GetSearchQuery()
         {
             var newdc = DC as FrameworkContext;
