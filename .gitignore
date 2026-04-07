@@ -1,68 +1,116 @@
-# ==========================================
-# C# / .NET 通用 Git 忽略文件（官方标准版）
-# ==========================================
+# ======================================================
+# WPF + C# + JavaScript 混合项目 官方标准忽略文件
+# ======================================================
 
-## 编译输出
+# ==================== 1. WPF / C# 编译输出 ====================
 [Bb]in/
 [Oo]bj/
-[Rr]elease/
 [Dd]ebug/
+[Re]lease/
 x64/
 x86/
-publish/
-out/
+Generated/
+Generated_Code/
+*.gen.cs
+*.baml
+*.resources
+*.resources.dll
+App.g.cs
+App.g.i.cs
+MainWindow.g.cs
+MainWindow.g.i.cs
 
-## NuGet 包
+# ==================== 2. Visual Studio IDE 文件 ====================
+.vs/
+*.suo
+*.user
+*.useross
+*.sln.docstates
+*.ide/
+*.vspscc
+*.vssscc
+*.dotCover
+*.resharper
+*.resharper.user
+.idea/
+*.log
+*.tlog
+*.lastbuildlog
+
+# ==================== 3. NuGet 包管理 ====================
 packages/
 *.nupkg
 *.snupkg
 nuget/
+project.lock.json
+packages.config
 
-## Visual Studio 自动生成
-.vs/
-.vscode/
-.idea/
-*.user
-*.useross
-*.sln.docstates
-*.suo
-*.ide/
-*.log
+# ==================== 4. JavaScript / 前端 / WebView2 ====================
+# Node 依赖
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
 
-## 构建工具
-dotnet-tools.json
-*.build
-*.msbuild
+# 前端编译/打包输出
+dist/
+build/
+out/
+wwwroot/dist/
+wwwroot/build/
 
-## 日志与临时文件
+# 前端缓存/配置
+.npm/
+.yarn/
+.pnpm/
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Web 临时文件
+*.js.map
+*.css.map
+*.tsbuildinfo
+
+# ==================== 5. 日志、缓存、临时文件 ====================
 *.log
 *.tmp
 *.temp
 *.cache
+*.osscache
+*.svd
+*.userprefs
 
-## 测试与覆盖率
+# ==================== 6. 测试与覆盖率 ====================
 TestResults/
-coverage.*
+coverage/
 *.coverage
+*.coveragexml
+TestAssets/
 
-## 发布/发布配置
-appsettings.Development.json
-appsettings.*.json
+# ==================== 7. 发布与部署 ====================
+publish/
 Properties/PublishProfiles/
+*.pubxml
+*.publishproj
+ClickOnce/
+Setup/
 
-## 数据库
-*.mdf
-*.ldf
-*.db
-*.sqlite
-
-## 操作系统文件
-.DS_Store
-Thumbs.db
-desktop.ini
-
-## 敏感信息（密钥、配置）
+# ==================== 8. 敏感配置 / 密钥 / 本地数据 ====================
 *.secrets.json
 *.credentials
-secrets/
 appsettings.Local.json
+ConnectionStrings.config
+*.pfx
+*.snk
+*.p12
+
+# ==================== 9. 操作系统垃圾文件 ====================
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+desktop.ini
