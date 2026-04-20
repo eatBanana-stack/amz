@@ -36,9 +36,9 @@ namespace AmazonTools.ViewModel._Admin.AmazonSiteInfoVMs
                 this.MakeGridHeader(x => x.AmazonSiteInfo_MailPassWord).SetTitle(@Localizer["Page.邮箱密码"].Value),
                 this.MakeGridHeader(x => x.AmazonSiteInfo_AccountPassWord).SetTitle(@Localizer["Page.账户密码"].Value),
                 this.MakeGridHeader(x => x.AmazonSiteInfo_CreditCard).SetTitle(@Localizer["Page.信用卡"].Value),
-                //this.MakeGridHeader(x => x.AmazonSiteInfo_SecurityCode).SetTitle(@Localizer["Page.安全码"].Value),
-                //this.MakeGridHeader(x => x.AmazonSiteInfo_ValidityPeriod).SetTitle(@Localizer["_Admin.ValidDate"].Value),
-                //this.MakeGridHeader(x => x.AmazonSiteInfo_Phone).SetTitle(@Localizer["Page.手机号"].Value),
+                this.MakeGridHeader(x => x.AmazonSiteInfo_SecurityCode).SetTitle(@Localizer["Page.安全码"].Value),
+                this.MakeGridHeader(x => x.AmazonSiteInfo_ValidityPeriod).SetTitle(@Localizer["_Admin.ValidDate"].Value),
+                this.MakeGridHeader(x => x.AmazonSiteInfo_Phone).SetTitle(@Localizer["Page.手机号"].Value),
                 this.MakeGridHeader(x => x.AmazonSiteInfo_AmazonState).SetTitle(@Localizer["Page.状态"].Value),
                 this.MakeGridHeader(x => x.AmazonSiteInfo_CreateTime).SetTitle(@Localizer["_Admin.CreateTime"].Value).SetWidth(180),
                 this.MakeGridHeader(x => x.AmazonSiteInfo_UpdateTime).SetTitle(@Localizer["_Admin.UpdateTime"].Value).SetWidth(180),
@@ -90,7 +90,7 @@ namespace AmazonTools.ViewModel._Admin.AmazonSiteInfoVMs
                  AmazonSiteInfo_CreateBy = x.CreateBy,
                  AmazonSiteInfo_UpdateBy = x.UpdateBy,
              })
-             .OrderByDescending(x => x.AmazonSiteInfo_CreateTime);
+             .OrderByDescending(x => x.AmazonSiteInfo_UpdateTime);
             }
             else
             {

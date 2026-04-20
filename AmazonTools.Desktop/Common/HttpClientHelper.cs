@@ -13,8 +13,8 @@ namespace AmazonTools.Desktop.Common
 
         public static string Auth = "";
         public static string account = "";
-        //public static string BaseUrl = "http://175.178.159.66:80/api/";
-        public static string BaseUrl = "http://192.168.1.213:80/api/";
+        public static string BaseUrl = "http://175.178.159.66:80/api/";
+        //public static string BaseUrl = "http://192.168.1.213:80/api/";
 
         //public static string BaseUrl = "http://localhost:5000/api/";
         public static T PostResponse<T>(string url, string postData) where T : class, new()

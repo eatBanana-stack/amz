@@ -253,7 +253,7 @@ namespace AmazonTools.Desktop
             siteMode.CreateTime = DateTime.Now;
 
             var rdName = new Random();
-            siteMode.AccountPassWord = "kuajin" + rdName.Next(10000, 99999).ToString() + "!";
+            siteMode.AccountPassWord = "Kuajin" + rdName.Next(10000, 99999).ToString() + "!";
 
             siteMode.ID = Guid.NewGuid();
             siteList.Add(siteMode);

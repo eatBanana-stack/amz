@@ -47,49 +47,7 @@ namespace AmazonTools.ViewModel._Admin.AmazonUserInfoVMs
 
         public override IOrderedQueryable<AmazonUserInfo_View> GetSearchQuery()
         {
-            if (LoginUserInfo.ITCode == "admin" || LoginUserInfo.ITCode == "志明")
-            {
-                return DC.Set<AmazonUserInfo>()
-
-              .CheckContain(Searcher.FaUserNameCn, x => x.FaUserNameCn)
-              .CheckContain(Searcher.FaUserNameUs, x => x.FaUserNameUs)
-              .CheckContain(Searcher.FaIdCard, x => x.FaIdCard)
-              .CheckContain(Searcher.FaBornTime, x => x.FaBornTime)
-              .CheckContain(Searcher.FaEndTime, x => x.FaEndTime)
-              .CheckContain(Searcher.LicenseCn, x => x.LicenseCn)
-              .CheckContain(Searcher.LicenseUs, x => x.LicenseUs)
-              .CheckContain(Searcher.LicenseCode, x => x.LicenseCode)
-              .CheckContain(Searcher.License, x => x.License)
-              .CheckContain(Searcher.MailingAddress, x => x.MailingAddress)
-              .CheckContain(Searcher.MailingZipCode, x => x.MailingZipCode)
-              .CheckEqual(Searcher.BelongingNameId, x => x.BelongingNameId)
-              .CheckContain(Searcher.LicenseAddress, x => x.LicenseAddress)
-              .CheckContain(Searcher.LicenseZipCode, x => x.LicenseZipCode)
-              .CheckBetween(Searcher.CreateTime?.GetStartTime(), Searcher.CreateTime?.GetEndTime(), x => x.CreateTime, includeMax: false)
-              .CheckBetween(Searcher.UpdateTime?.GetStartTime(), Searcher.UpdateTime?.GetEndTime(), x => x.UpdateTime, includeMax: false)
-              .CheckContain(Searcher.CreateBy, x => x.CreateBy)
-              .CheckContain(Searcher.UpdateBy, x => x.UpdateBy)
-              .Select(x => new AmazonUserInfo_View
-              {
-                  ID = x.ID,
-                  AmazonUserInfo_FaUserNameCn = x.FaUserNameCn,
-                  AmazonUserInfo_FaIdCard = x.FaIdCard,
-                  AmazonUserInfo_LicenseCn = x.LicenseCn,
-                  AmazonUserInfo_License = x.License,
-                  AmazonUserInfo_BelongingName = x.BelongingName.DicFieldDes,
-                  AmazonUserInfo_CreateTime = x.CreateTime,
-                  AmazonUserInfo_UpdateTime = x.UpdateTime,
-                  AmazonUserInfo_CreateBy = x.CreateBy,
-                  AmazonUserInfo_UpdateBy = x.UpdateBy,
-
-
-              })
-              .OrderByDescending(x => x.AmazonUserInfo_CreateTime);
-            }
-            else
-            {
-                var mode =  DC.Set<AmazonUserInfo>()
-
+            var mode =  DC.Set<AmazonUserInfo>()
                .CheckContain(Searcher.FaUserNameCn, x => x.FaUserNameCn)
                .CheckContain(Searcher.FaUserNameUs, x => x.FaUserNameUs)
                .CheckContain(Searcher.FaIdCard, x => x.FaIdCard)
@@ -124,28 +82,25 @@ namespace AmazonTools.ViewModel._Admin.AmazonUserInfoVMs
                })
                .Where(x => x.AmazonUserInfo_CreateBy == LoginUserInfo.ITCode)
                .OrderByDescending(x => x.AmazonUserInfo_CreateTime);
-
-                return mode;
-            }
-
-
+            return mode;
         }
-
-
     }
-    public class AmazonUserInfo_View : AmazonUserInfo
-    {
 
-        public string AmazonUserInfo_FaUserNameCn { get; set; }
-        public string AmazonUserInfo_FaIdCard { get; set; }
-        public string AmazonUserInfo_LicenseCn { get; set; }
-        public string AmazonUserInfo_License { get; set; }
-        public string AmazonUserInfo_BelongingName { get; set; }
-        public DateTime? AmazonUserInfo_CreateTime { get; set; }
-        public DateTime? AmazonUserInfo_UpdateTime { get; set; }
-        public string AmazonUserInfo_CreateBy { get; set; }
-        public string AmazonUserInfo_UpdateBy { get; set; }
 
-    }
+}
+public class AmazonUserInfo_View : AmazonUserInfo
+{
+
+    public string AmazonUserInfo_FaUserNameCn { get; set; }
+    public string AmazonUserInfo_FaIdCard { get; set; }
+    public string AmazonUserInfo_LicenseCn { get; set; }
+    public string AmazonUserInfo_License { get; set; }
+    public string AmazonUserInfo_BelongingName { get; set; }
+    public DateTime? AmazonUserInfo_CreateTime { get; set; }
+    public DateTime? AmazonUserInfo_UpdateTime { get; set; }
+    public string AmazonUserInfo_CreateBy { get; set; }
+    public string AmazonUserInfo_UpdateBy { get; set; }
+
+}
 
 }

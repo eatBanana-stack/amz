@@ -66,6 +66,8 @@ namespace AmazonTools.Desktop
                 writer.WriteLine($"* 账号和邮箱:     {entity.Mail}");
                 writer.WriteLine($"* 密码:              {entity.AccountPassWord}");
                 writer.WriteLine($"* 邮箱密码:        {entity.MailPassWord}");
+                writer.WriteLine($"* pingpong或万里汇:     {entity.Mail}");
+                writer.WriteLine($"* pingpong或万里汇密码:        {entity.MailPassWord}");
                 writer.WriteLine($"* 亚马逊信用卡或希音账号:           {entity.CreditCard}");
                 writer.WriteLine($"* 亚马逊安全码或希音品类:           {entity.SecurityCode}");
                 writer.WriteLine($"* 有效期:           {entity.ValidityPeriod}");

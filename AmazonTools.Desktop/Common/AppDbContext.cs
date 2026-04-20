@@ -15,8 +15,8 @@ namespace AmazonTools.Desktop.Common
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // 配置 SQL Server 连接字符串
-            //optionsBuilder.UseSqlServer("Server=175.178.159.66;Database=AmazonTools_db;User ID=sa;Password=Hezf5201314.;TrustServerCertificate=True;");
-            optionsBuilder.UseSqlServer("Server=192.168.1.213;Database=AmazonTools_db;User ID=sa;Password=Hezf5201314.;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer("Server=175.178.159.66;Database=AmazonTools_db;User ID=sa;Password=Hezf5201314.;TrustServerCertificate=True;");
+            //optionsBuilder.UseSqlServer("Server=192.168.1.213;Database=AmazonTools_db;User ID=sa;Password=Hezf5201314.;TrustServerCertificate=True;");
 
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

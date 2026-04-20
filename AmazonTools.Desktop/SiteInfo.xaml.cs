@@ -33,10 +33,10 @@ namespace AmazonTools.Desktop
                 cb_zhuangtai.Items.Add(x.DicFieldDes);
             });
             pg_page.PageIndex = 1;
-            pg_page.DataCountPerPage = 200;
+            pg_page.DataCountPerPage = 10;
             var siteCount = db.AmazonSiteInfos.Count();
-            pg_page.MaxPageCount = (siteCount / 200) + 1;
-            dg_filter.ItemsSource = AmazonSiteInfos("", "", "", "", pg_page.PageIndex, 200);
+            pg_page.MaxPageCount = (siteCount / 10) + 1;
+            dg_filter.ItemsSource = AmazonSiteInfos("", "", "", "", pg_page.PageIndex, 10);
         }
 
         private List<Model._Admin.AmazonSiteInfo> AmazonSiteInfos(string userName, string site, string state, string mail, int pageNumber, int pageSize)
@@ -85,7 +85,7 @@ namespace AmazonTools.Desktop
         private void Button_Click_Select(object sender, RoutedEventArgs e)
         {
             dg_filter.ItemsSource = null;
-            dg_filter.ItemsSource = AmazonSiteInfos(tb_UserName.Text.Trim(), cb_zhandian.Text, cb_zhuangtai.Text, tb_Mail.Text.Trim(), pg_page.PageIndex, 200);
+            dg_filter.ItemsSource = AmazonSiteInfos(tb_UserName.Text.Trim(), cb_zhandian.Text, cb_zhuangtai.Text, tb_Mail.Text.Trim(), pg_page.PageIndex, 10);
         }
 
         private void Button_Click_UpdateState(object sender, RoutedEventArgs e)
@@ -97,12 +97,13 @@ namespace AmazonTools.Desktop
                 return;
             }
             UpdateState updateState = new UpdateState(siteMode);
-            if (!(bool)updateState.ShowDialog())
+            if ((bool)updateState.ShowDialog())
             {
                 dg_filter.ItemsSource = null;
-                dg_filter.ItemsSource = AmazonSiteInfos(tb_UserName.Text.Trim(), cb_zhandian.Text, cb_zhuangtai.Text, tb_Mail.Text.Trim(), pg_page.PageIndex, 200);
-            }
+                dg_filter.ItemsSource = AmazonSiteInfos(tb_UserName.Text.Trim(), cb_zhandian.Text, cb_zhuangtai.Text, tb_Mail.Text.Trim(), pg_page.PageIndex, 10);
 
+
+            }
         }
 
         private void Button_Click_ValidatorWindows(object sender, RoutedEventArgs e)
@@ -114,11 +115,9 @@ namespace AmazonTools.Desktop
                 return;
             }
             ValidatorWindows ValidatorWindows = new ValidatorWindows(siteMode);
-            if (!(bool)ValidatorWindows.ShowDialog())
-            {
-                dg_filter.ItemsSource = null;
-                dg_filter.ItemsSource = AmazonSiteInfos(tb_UserName.Text.Trim(), cb_zhandian.Text, cb_zhuangtai.Text, tb_Mail.Text.Trim(), pg_page.PageIndex, 200);
-            }
+            ValidatorWindows.Show();
+            dg_filter.ItemsSource = null;
+            dg_filter.ItemsSource = AmazonSiteInfos(tb_UserName.Text.Trim(), cb_zhandian.Text, cb_zhuangtai.Text, tb_Mail.Text.Trim(), pg_page.PageIndex, 10);
         }
 
         private void Button_Click_admin(object sender, RoutedEventArgs e)
@@ -138,14 +137,14 @@ namespace AmazonTools.Desktop
             if (!(bool)endPackaged.ShowDialog())
             {
                 dg_filter.ItemsSource = null;
-                dg_filter.ItemsSource = AmazonSiteInfos(tb_UserName.Text.Trim(), cb_zhandian.Text, cb_zhuangtai.Text, tb_Mail.Text.Trim(), pg_page.PageIndex, 200);
+                dg_filter.ItemsSource = AmazonSiteInfos(tb_UserName.Text.Trim(), cb_zhandian.Text, cb_zhuangtai.Text, tb_Mail.Text.Trim(), pg_page.PageIndex, 10);
             }
         }
 
         private void pg_page_PageUpdated(object sender, HandyControl.Data.FunctionEventArgs<int> e)
         {
             dg_filter.ItemsSource = null;
-            dg_filter.ItemsSource = AmazonSiteInfos(tb_UserName.Text.Trim(), cb_zhandian.Text, cb_zhuangtai.Text, tb_Mail.Text.Trim(), pg_page.PageIndex, 200);
+            dg_filter.ItemsSource = AmazonSiteInfos(tb_UserName.Text.Trim(), cb_zhandian.Text, cb_zhuangtai.Text, tb_Mail.Text.Trim(), pg_page.PageIndex, 10);
         }
     }
 }

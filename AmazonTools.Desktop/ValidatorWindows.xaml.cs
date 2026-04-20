@@ -353,13 +353,18 @@ namespace AmazonTools.Desktop
                     //营业执照
                     HttpClientHelper.DownloadFile($"_file/downloadfile/{siteMode.AmazonUser.LicensePhotoId}", System.IO.Path.Combine(desktopPath, $"{siteMode.AmazonUser.FaUserNameCn}营业执照.png"));
 
+                    AmazonImageResizer.ResizeForAmazon(System.IO.Path.Combine(desktopPath, $"{siteMode.AmazonUser.FaUserNameCn}身份证正面.png"),
+                        System.IO.Path.Combine(desktopPath, $"G{siteMode.AmazonUser.FaUserNameUs}sfzz.png"), enableScaleUp: false);
+                    AmazonImageResizer.ResizeForAmazon(System.IO.Path.Combine(desktopPath, $"{siteMode.AmazonUser.FaUserNameCn}身份证反面.png"),
+                        System.IO.Path.Combine(desktopPath, $"G{siteMode.AmazonUser.FaUserNameUs}sfzb.png"), enableScaleUp: false);
+                    AmazonImageResizer.ResizeForAmazon(System.IO.Path.Combine(desktopPath, $"{siteMode.AmazonUser.FaUserNameCn}营业执照.png"),
+                        System.IO.Path.Combine(desktopPath, $"G{siteMode.AmazonUser.FaUserNameUs}yyzz.png"), enableScaleUp: false);
+
                     ImageHelper.CenterOnWhiteBackground(System.IO.Path.Combine(desktopPath, $"{siteMode.AmazonUser.FaUserNameCn}身份证正面.png"), System.IO.Path.Combine(desktopPath, $"{siteMode.AmazonUser.FaUserNameCn}身份证正面扩展.png"), 5000, 5000);
-
-
                     ImageHelper.CenterOnWhiteBackground(System.IO.Path.Combine(desktopPath, $"{siteMode.AmazonUser.FaUserNameCn}身份证反面.png"), System.IO.Path.Combine(desktopPath, $"{siteMode.AmazonUser.FaUserNameCn}身份证反面扩展.png"), 5000, 5000);
-
-
                     ImageHelper.CenterOnWhiteBackground(System.IO.Path.Combine(desktopPath, $"{siteMode.AmazonUser.FaUserNameCn}营业执照.png"), System.IO.Path.Combine(desktopPath, $"{siteMode.AmazonUser.FaUserNameCn}营业执照扩展.png"), 5000, 5000);
+
+
                     Dispatcher.Invoke(new Action(() =>
                     {
                         Growl.SuccessGlobal($"获取成功");
